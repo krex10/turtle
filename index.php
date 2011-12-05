@@ -13,7 +13,7 @@ include "config.php";
 <script src="jquery.js"></script>
 </head>
 <body>
-	<img id="title" src="title3.png" style="margin-left:30px; margin-bottom:-100px; margin-top:10px;"/>
+	<img id="title" src="title3.png" style="margin-left:30px; margin-bottom:-400px; margin-top:300px;"/>
     <div id="wrapper"> 
         <div id="content">
             <div id="form">

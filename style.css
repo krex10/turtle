@@ -1,12 +1,12 @@
 body {
-    background:#F8F8F8  url('cloud_background.jpg') repeat-x;
+    background:#F8F8F8;
     width:95%;
     height:90%;
 }
 
 #wrapper {
     width:600px;
-    margin-left:230px;
+    margin-left:350px;
     margin-top:180px;
     padding:10px;
     float:left;
@@ -27,16 +27,16 @@ body {
 #zippy {
     padding-top:10px; 
     margin-bottom:-280px; 
-    margin-left:780px; 
+    margin-left:100px; 
     padding-bottom:160px;
-    margin-top:-80px;
+    margin-top:10px;
 }
 
 #green_page {
     background-color:#EEF3E2;
-    margin-top: 70px;
+    margin-top: -300px;
     margin-bottom:0px;
-    margin-left:250px;
+    margin-left:400px;
     width:760px;
     border-radius:20px;
     height:470px;
@@ -216,4 +216,8 @@ a.footer_links {
 
 a.footer_links:hover {
     color:#33A10B;
+}
+
+#prev_show {
+    visibility:hidden;
 }

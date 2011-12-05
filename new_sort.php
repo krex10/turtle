@@ -12,15 +12,6 @@ if (!$sort)
 else
 	{$_SESSION['sort'] = $sort;}
 //filter
-$filter = @$_GET['filter'];
-$no_filter = $filter;
-	if ($filter == 'no_utils') {$filter = 'utils_included'; $filter_var = "No";}
-	else if ($filter == 'no_lease') {$filter = 'lease_required' ; $filter_var = "No";}
-	else if ($filter == 'no_furnished') {$filter = 'furnished' ; $filter_var = "No";}
-	else { $filter_var = "Yes"; }
-if (!$filter)
-	{$filter = "";}
-else { $_SESSION['filter'] = $filter; }
 $trimmed = trim($var); //trim whitespace from the stored variable
 $supertrimmed = mysql_escape_string($trimmed);
 // rows to return
@@ -38,14 +29,12 @@ if (!isset($var))
 	exit;
 
 }
-if (!$filter)
-	{ $query = "Select * from temp where address like \"%$supertrimmed%\" ORDER BY $sort"; }
-else 
-	{$query = "Select * from temp where address like \"%$supertrimmed%\" AND $filter = '$filter_var' ORDER BY $sort";}
+$query = "Select * from temp where address like \"%$supertrimmed%\" ORDER BY $sort"; 
 $numresults=mysql_query($query) or die ($query);
 $numrows=mysql_num_rows($numresults); 
 if ($numrows == 0)
 {
+	echo "{\"error_msg\": \"null_query\"}";
 	exit;
 }
 else { 
@@ -56,18 +45,16 @@ else {
 	// get results
 	$query .= " limit $s,$limit";
 	$result = mysql_query($query) or die("Couldn't execute query");
-
+	$numrows=mysql_num_rows($result); 
 	// display what the person searched for
-	$count = 0;
-	$test_count = 1;
+	$count = 1;
 	echo "{\"result\":[";
 	while ($row= mysql_fetch_array($result)) { 
-		$count++;
-		if ($test_count >= $limit)
+		if ($count >= $numrows || $count >= $limit)
 			{ echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\"}"; break; }
 		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\"},";
-		$test_count++;
+		$count++;
 	}
-	echo "]}";
+	echo "], \"numrows\": \"".$numrows."\"}";
 }
 ?>

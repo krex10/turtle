@@ -5,12 +5,12 @@
 		<title>Turtle&#39;s Den</title>
 		<script language="JavaScript" src="jquery.js"></script>
 		<script language="JavaScript" src="jquery.qtip.min.js"></script>
-		<script language="JavaScript" src="more_info.js"></script>
+		<script language="JavaScript" src="info.js"></script>
 		<script language="JavaScript" src="contact.js"></script>
 	</head>
 	<body>
 		<a href="/turtle">
-			<img id="title" src="title3.png" style="margin-left:40px; margin-bottom:-80px; margin-top:10px;"/>
+			<img id="title" src="title3.png" style="margin-left:30px; margin-bottom:-530px; margin-top:300px;"/>
 		</a>
 		<div id="zippy"> 
 			<a href="/turtle"><img src="turtle3.png"/></a>
@@ -25,18 +25,7 @@
 			$sort = @$_GET['sort'];
 			//sort
 			if (!$sort)
-				{$sort = "rating"; $_SESSION['sort'] = $sort; }
-			else
-				{$_SESSION['sort'] = $sort;}
-			//filter
-			$filter = @$_GET['filter'];
-			if ($filter == 'no_utils') {$filter = 'utils_included' ; $filter_var = "No";}
-			else if ($filter == 'no_utils') {$filter = 'lease_required' ; $filter_var = "No";}
-			else if ($filter == 'no_utils') {$filter = 'furnished' ; $filter_var = "No";}
-			else { $filter_var = "Yes"; }
-			if (!$filter)
-				{$filter = "";}
-			else { $_SESSION['filter'] = $filter; }
+				{$sort = "rating";}
 			$trimmed = trim($var); //trim whitespace from the stored variable
 			$supertrimmed = mysql_escape_string($trimmed);
 			// rows to return
@@ -100,10 +89,10 @@
 				<table id="results" cellspacing="7" border="1" bordercolor="green" rules="cols" frame="void" class="sortable">
     				<tr style="font-weight:bold;">
         				<td>
-							<button class="sort_buttons" style="" >Price</button>
+							<button class="sort_buttons" id="sort_price" style="" >Price</button>
 						</td>
         				<td style="padding-left:25px;" style="vertical-align:top; text-align:top;">
-							1 km<button style="" ><hr  class="sort_buttons" style="width:380px; height:3px;"/></button>30 km
+							1 km<button style="" ><hr  id="sort_distance" class="sort_buttons" style="width:380px; height:3px;"/></button>30 km
 						</td>
 					</tr>
 					<?php
@@ -116,29 +105,25 @@
 					$padding_left = "' color:white; font-weight:bold; font-size:10px; padding-left: $padding px; text-align:left;'";
 						?> 
 					<tr id="tr_results">
-						<td  width="60" style="font-weight:bold; font-size:16px;" ><div <? echo "id=\"cost".$test_count."\""; ?>><p><?php echo "\${$row['cost']}";  ?></p>
-							</div></td>
-						<td  width="60" style=<?php echo $padding_left; ?> ><div> <p style="background: url(house.png) no-repeat; padding: 20px 5px 12px 14px; width:25px;" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']}";  ?></p></div></td>
+						<td  width="60" style="font-weight:bold; font-size:16px;" >
+							<div <? echo "id=\"cost".$test_count."\""; ?>><p><?php echo "\${$row['cost']}";  ?></p>
+							</div>
+						</td>
+						<td  width="60" style=<?php echo $padding_left; echo "id=\"pad_dist".$test_count."\""; ?> >
+							<div> <p style="background: url(house.png) no-repeat; padding: 20px 5px 12px 14px; width:25px;" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']}";  ?></p></div>
+						</td>
 					</tr>
 					<?php
 					$count++;
-					echo "<script>
-		list_info[$test_count] = ['$row[rentalId]','$row[address]','$row[cost]','$row[distance]','$row[available]', '$row[utils_included]','$row[lease_required]','$row[furnished]','$row[empty_rooms]']
-						
-						</script>";
 					$test_count++;
 				}
 				?>
 			</table><!--End results table -->
-			<script>
-				more_info(list_info);
-			</script>
 			<?php 
 			$currPage = (($s/$limit) + 1);
 			//break before paging
 			echo "<br />";
 			// next we need to do the links to other results
-			$prevs=($s-$limit); 
 			// calculate number of pages needing links
 			$pages=intval($numrows/$limit);
 			// $pages now contains int of pages needed unless there is a remainder from division
@@ -149,26 +134,23 @@
 			// check to see if last page
 			if (!((($s+$limit)/$limit)==$pages) && $pages!=1) {
 				// not last page so give NEXT link
-				$news=$s+$limit; 
-				echo "<script>var news = $news; var prevs = $prevs;</script>"?>
-				<div id="prev_show"><button class="page_buttons" id="prev" style="margin-left:115px; display:none;">Prev Page</button> </div>
-				<div id="next_show"><button class="page_buttons" id="next" style="margin-left:115px;">Next Page</button></div> <?
+				$news=$s+$limit;
+				echo "<script>var news = '".$news."'; var prevs = 0; var query = '".$supertrimmed."'; var sort = '".$sort."'; </script>"; ?>
+				<div id="prev_show"><button class="page_buttons" id="prev" style="">Prev Page</button> </div>
+				<div id="next_show"><button class="page_buttons" id="next" style="margin-top:-28px; margin-left:100px;">Next Page</button></div> <?
 			}
 		
 			?>
 			<div id="filters">
-				<button class="filter_buttons">
-Utilities:
+				<button class="filter_buttons">Utilities:
 					<a href="#">[Yes]</a> /
 					<a href="#" >[No]</a>
 				</button><br/>
-				<button class="filter_buttons" >
-Lease:
+				<button class="filter_buttons" >Lease:
 					<a href="#">[Yes]</a> /
 					<a href="#">[No]</a>
 				</button><br/>
-				<button class="filter_buttons" >
-Furnished:
+				<button class="filter_buttons" >Furnished:
 					<a href="#">[Yes]</a> /
 					<a href="#">[No]</a>
 				</button><br/>
@@ -181,28 +163,5 @@ Furnished:
 	</body>
 </html>
 <script>
-		$(document).ready(function(){
-		//$("#search_results").on("mouseover", tester(list_info));
-		$('#next').on("click",function() {
-			$.get('new_sort.php?q=waterloo&sort=rating&filter=&s='+news, function(data) {
-				news = news + 5;
-				var result = $.parseJSON(data);
-				for (var i=0; i < 5; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;					
-				}
-				if (news > 5) {
-					document.getElementById("prev_show").style.display = "display:inline;";
-				}				
-			});
-		});
-		$('#prev').on("click",function() {
-			$.get('new_sort.php?q=waterloo&sort=rating&filter=&s=5', function(data) {
-				var result = $.parseJSON(data);
-				for (var i=0; i < 5; i++) {
-					document.getElementById(i).innerHTML = "$"+result.result[i].cost;					
-				}				
-			});
-		});
-	});
+$(document).ready(more_info());
 </script>
