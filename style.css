@@ -1,46 +1,41 @@
 body {
     background:#F8F8F8;
-    width:95%;
-    height:90%;
+    margin:0;
+    padding:0;
+    height:100%;
 }
 
 #wrapper {
-    width:600px;
-    margin-left:350px;
-    margin-top:180px;
-    padding:10px;
-    float:left;
+    min-height:100%;
+    position:relative;
 }
 
 #content {
     background:#EEF3E2;
-    padding:20px 20px 20px 150px;
-    margin-left:20px;
-    float:left;
     border-radius:20px;
+    width:50%;
+    min-width:625px;
+    max-width:650px;
+    margin:2% 0 0 20%;
 }
 
 #form {
-    margin:10px 0 10px 90px;
+    margin:-170px 0 0 250px;
 }
 
-#zippy {
-    padding-top:10px; 
-    margin-bottom:-280px; 
-    margin-left:100px; 
-    padding-bottom:160px;
-    margin-top:10px;
+#zippy { 
+    
 }
 
 #green_page {
+    position:absolute;
+    top:0;
     background-color:#EEF3E2;
-    margin-top: -300px;
-    margin-bottom:0px;
-    margin-left:400px;
+    margin:70px 0 0 400px;
+    padding:0;
     width:760px;
     border-radius:20px;
     height:470px;
-    padding-bottom:0px;
 }
 
 .search_form {
@@ -74,6 +69,9 @@ button {
     width:auto;
 }
 
+.page_buttons {
+    margin-top:-15px;
+}
 .page_buttons:hover {
     color: red;
     background:black;
@@ -123,7 +121,7 @@ table.results tr, td, th, tbody {
 }
 
 #results {
-    margin-top:-30px;
+    margin-top:-10px;
 }
 
 .alignTop{vertical-align: top;}
@@ -142,8 +140,9 @@ table.results tr, td, th, tbody {
     font-size:16px;
     color:black;
     font-weight:bold;
-    margin-left:-50px;
-    margin-top:-25px;
+    margin-left:-20px;
+    margin-top:-15px;
+    margin-bottom:5px;
 }
 
 .sort_buttons {
@@ -193,12 +192,14 @@ table.results tr, td, th, tbody {
 }
 
 #footer {
-    margin-top:10px;
-    margin-left:450px;
     font-size:12px;
     font-family:Verdana;
     color:#000000;
     font-weight:bold;
+    position:absolute;
+    bottom:0;
+    margin-left:40%;
+    padding:30px 0 0 0;
 }
 #footer button {
     color:black;

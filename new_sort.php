@@ -1,17 +1,23 @@
 <?php
 session_start();
 
-if (!isset($_SESSION)) { echo "Session not set, please verify cookie settings and reload the page"; exit;}
+if (!isset($_SESSION)) { 
+	echo "Session not set, please verify cookie settings and reload the page"; 
+	exit;
+}
+
 include "config.php";
+//query and position #
 $var = @$_GET['q'] ;
 $s = @$_GET['s'];
-$sort = @$_GET['sort'];
 //sort
+$sort = @$_GET['sort'];
 if (!$sort)
-	{$sort = "rating"; $_SESSION['sort'] = $sort; }
-else
-	{$_SESSION['sort'] = $sort;}
-//filter
+	{$sort = "rating";}
+//set filters
+$filter = @$_GET['filter'];
+$pattern = "_yes";
+$filter_array = array("utils" => "None", "lease" => "None", "furnished" => "None");
 $trimmed = trim($var); //trim whitespace from the stored variable
 $supertrimmed = mysql_escape_string($trimmed);
 // rows to return
@@ -29,7 +35,33 @@ if (!isset($var))
 	exit;
 
 }
-$query = "Select * from temp where address like \"%$supertrimmed%\" ORDER BY $sort"; 
+if ($filter) {
+	$exists = 0;
+	foreach($filter_array as $f) {
+		if(preg_match($filter, $f))
+			$exists = 1;
+	}
+	//find which filter it is and insert yes/no
+	/*
+	if (!$exists) { 
+		preg_match();
+		array_push ($filter_array, $filter);
+		if(preg_match($pattern, $filter))
+			array_push ($filter_var, "Yes");
+		else
+			array_push ($filter_var, "No");
+	}
+	$array_length = count($filter_array);
+	$query = "Select * from temp where address like \"%$supertrimmed%\" WHERE";
+	/*for ($i = 0; $i < $array_length; $i++) {
+			$query .= "$filter_array[$i] = $filter_var[$i] AND"; 
+	}
+	$query .= "$filter_array[$i] = $filter_var[$i]"; }
+	$query .= "ORDER BY $sort";*/
+}
+else {
+	$query = "Select * from temp where address like \"%$supertrimmed%\" ORDER BY $sort"; 
+}
 $numresults=mysql_query($query) or die ($query);
 $numrows=mysql_num_rows($numresults); 
 if ($numrows == 0)

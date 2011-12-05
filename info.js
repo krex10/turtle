@@ -87,5 +87,27 @@ function more_info () {
 				}
 			});
 		});
+		$('#utils_yes').on("click",function() {
+			filter = "utils_yes";
+			$.get('new_sort.php?q='+query+'&sort='+sort+'&s='+sort+"&filter="+filter, function(data) {
+				var result = $.parseJSON(data);
+				numrows = result.numrows;
+				news = 5;
+				prevs = 0;
+				for (i=0; i < numrows; i++) {
+					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+					var padding = result.result[i].distance * 15;
+					var padding_left = padding+"px";
+					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				}
+				if (numrows < 5) {
+					for (i= 4; i >= numrows ; i--) {
+						document.getElementById("cost"+i).style.visibility = "hidden";
+						document.getElementById("dist"+i).style.visibility = "hidden";
+					}
+				}
+			});
+		});
 	});
 }

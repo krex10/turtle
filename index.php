@@ -13,9 +13,10 @@ include "config.php";
 <script src="jquery.js"></script>
 </head>
 <body>
-	<img id="title" src="title3.png" style="margin-left:30px; margin-bottom:-400px; margin-top:300px;"/>
-    <div id="wrapper"> 
+    <div id="wrapper">
+        <img id="title" src="title3.png" style=""/>
         <div id="content">
+            <div style=""> <img src="turtle3.png"/> </div>
             <div id="form">
                 <form action="new_search.php" method="get" class="search_form">
                     <label for="q"></label>
@@ -24,9 +25,8 @@ include "config.php";
                 </form>
             </div> <!--end form -->
         </div> <!--end content -->
-        <div style="margin-top:-60px;"> <img src="turtle3.png"/> </div>
-		<div id="footer" style="margin-top:50px; margin-left:170px;">
-				<button class="footer_copyright" onclick="/">&copy; 2011 Turtle's Den | <a class="footer_links" href="#">Feedback</a> | <a class="footer_links" href="#">Contact us</a></button>
+		<div id="footer" style="">
+				<p class="footer_copyright" onclick="/">&copy; 2011 Turtle's Den | <a class="footer_links" href="#">Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
 		</div>
     </div> <!--end wrapper -->
 </body>
