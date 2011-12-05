@@ -1,4 +1,4 @@
-function sort(query, sort, filter, s)
+function sort(query, sort, filter, s, list_info)
 {
     var xmlhttp;
     if (window.XMLHttpRequest) {
@@ -14,6 +14,7 @@ function sort(query, sort, filter, s)
         if (xmlhttp.readyState==4 && xmlhttp.status==200)
         {
             document.getElementById("search_results").innerHTML=xmlhttp.responseText;
+            more_info(list_info);
         }
     }
     var link = "sort.php?q="+query+"&sort="+sort+"&filter="+filter+"&s="+s;

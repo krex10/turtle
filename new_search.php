@@ -4,14 +4,16 @@
 		<link rel="stylesheet" type="text/css" href="style.css" />
 		<title>Turtle&#39;s Den</title>
 		<script language="JavaScript" src="jquery.js"></script>
-		<script language="JavaScript" src="sort.js"></script>
 		<script language="JavaScript" src="jquery.qtip.min.js"></script>
 		<script language="JavaScript" src="more_info.js"></script>
 		<script language="JavaScript" src="contact.js"></script>
 	</head>
 	<body>
-		<div id="zippy" style="padding-top:200px; margin-bottom:-440px; margin-left:930px;"> 
-			<a href="/turtle"><img src="turtle3_flipped.png"/></a>
+		<a href="/turtle">
+			<img id="title" src="title3.png" style="margin-left:40px; margin-bottom:-80px; margin-top:10px;"/>
+		</a>
+		<div id="zippy"> 
+			<a href="/turtle"><img src="turtle3.png"/></a>
 		</div>
 		<div id="green_page" style="padding-top:20px;">
 			<div id="search_results">
@@ -61,14 +63,14 @@
 			if ($numrows == 0)
 			{
 				?>
-				<p style="margin-left:200px;">Sorry, your search for "<?php echo "$supertrimmed"; ?>" did not return any results.</p>
+				<p style="margin-left:80px; margin-top:20px;" class="showing">Sorry, your search for "<?php echo "$supertrimmed"; ?>" did not return any results.</p>
 				<form style="margin-left:200px;" action="new_search.php" method="get" class="search_form">
                     <label for="q"></label>
                     <input onFocus="this.value = (this.value=='new search')? '' : this.value;" value="new search" type="text" name="q"  class="search" /><br/>
                     <button class="search">Search</button>
                 </form> <?php
-				exit;
  			}
+			else {
 			// next determine if s has been passed to script, if not use 0
 			if (empty($s)) {
 				$s=0;
@@ -78,18 +80,18 @@
 			$result = mysql_query($query) or die("Couldn't execute query");
 
 			// display what the person searched for
-			?> <table >
+			?> <table>
 					<tr  align='left'>
-						<td width='800' align='right'>
+						<td width='800' align='left'>
     						<strong> <?php $a = $s + ($limit) ;
       					if ($a > $numrows) { $a = $numrows ; }
       					$b = $s + 1 ;
-      					echo "<p class='showing'>Showing results $b to $a of $numrows for '".$var."'"; ?>
+      					echo "<p class='showing'>Showing results $b to $a of $numrows"; ?>
 						</td>
 						<td>
-							<form style="margin-right:150px;" action="new_search.php" method="get" class="search_form">
+							<form style="margin-right:190px; vertical-align:top;" action="new_search.php" method="get" class="search_form">
 		                    <label for="q"></label>
-		                    <input onFocus="this.value = (this.value=='new search')? '' : this.value;" value="new search" type="text" name="q"  class="search2" /><button class="page_buttons">Search</button>
+		                    <input onFocus="this.value = (this.value=='<? echo $var; ?>')? '' : this.value;" value="<? echo $var; ?>" type="text" name="q"  class="search2" />
 		                	</form>
 						</td>
 					</tr>
@@ -98,39 +100,45 @@
 				<table id="results" cellspacing="7" border="1" bordercolor="green" rules="cols" frame="void" class="sortable">
     				<tr style="font-weight:bold;">
         				<td>
-							<button class="sort_buttons" onclick=<?php $sort_var = "'sort(\"".$supertrimmed."\", \"cost\", \"$filter\", \"\")'"; echo $sort_var; ?> style=<? if ($sort == 'cost') { $button_bg = "'background:#33A10B;'"; echo $button_bg; } ?> >Price</button>
+							<button class="sort_buttons" style="" >Price</button>
 						</td>
         				<td style="padding-left:25px;" style="vertical-align:top; text-align:top;">
-							1 km<button onclick=<?php $sort_var = "'sort(\"".$supertrimmed."\", \"distance\", \"$filter\", \"\")'"; echo $sort_var; ?> style=<? if ($sort == 'distance') { $button_bg = "'background:#33A10B;'"; echo $button_bg; } ?>><hr  class="sort_buttons" style="width:680px; height:3px;"/></button>30 km
+							1 km<button style="" ><hr  class="sort_buttons" style="width:380px; height:3px;"/></button>30 km
 						</td>
 					</tr>
 					<?php
 				$count = 1 + $s ;
+				$test_count = 0;
+				echo "<script> var x = []; var list_info = [x,x,x,x,x]; </script>";
 				// now you can display the results returned
 				while ($row= mysql_fetch_array($result)) {
-					$padding = $row['distance'] * 25;
+					$padding = $row['distance'] * 15;
 					$padding_left = "' color:white; font-weight:bold; font-size:10px; padding-left: $padding px; text-align:left;'";
 						?> 
-					<tr>
-						<td width="60" style="font-weight:bold; font-size:16px;"><?php echo "\${$row['cost']}";  ?></td>
-						<td width="60" style=<?php echo $padding_left; ?> > <p class=<? echo "'$row[rentalId]'"; ?> style="background: url(house.png) no-repeat; padding: 20px 5px 12px 14px; width:25px;"> <?php echo "{$row['distance']}";  ?></p></td>
-					<?php $more_info_var = "<script language=\"JavaScript\"> more_info('$row[rentalId]','$row[address]', '$row[cost]', '$row[distance]', '$row[available]', '$row[utils_included]', '$row[lease_required]', '$row[furnished]', '$row[empty_rooms]') </script>"; echo $more_info_var; ?>
+					<tr id="tr_results">
+						<td  width="60" style="font-weight:bold; font-size:16px;" ><div <? echo "id=\"cost".$test_count."\""; ?>><p><?php echo "\${$row['cost']}";  ?></p>
+							</div></td>
+						<td  width="60" style=<?php echo $padding_left; ?> ><div> <p style="background: url(house.png) no-repeat; padding: 20px 5px 12px 14px; width:25px;" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']}";  ?></p></div></td>
 					</tr>
 					<?php
-					$count++ ;
+					$count++;
+					echo "<script>
+		list_info[$test_count] = ['$row[rentalId]','$row[address]','$row[cost]','$row[distance]','$row[available]', '$row[utils_included]','$row[lease_required]','$row[furnished]','$row[empty_rooms]']
+						
+						</script>";
+					$test_count++;
 				}
 				?>
 			</table><!--End results table -->
+			<script>
+				more_info(list_info);
+			</script>
 			<?php 
 			$currPage = (($s/$limit) + 1);
 			//break before paging
 			echo "<br />";
 			// next we need to do the links to other results
-			if ($s>=1) { // bypass PREV link if s is 0
-				$prevs=($s-$limit);
-				$sort_var = "'sort(\"".$supertrimmed."\", \"$sort\", \"$filter\", \"$prevs\")'"; ?>
-				<button class="page_buttons" onclick=<?php $sort_var = "'sort(\"".$supertrimmed."\", \"$sort\", \"$filter\", \"$prevs\" )'"; echo $sort_var; ?> style="margin-right:-105px;" >Prev Page</button> <?
-			}
+			$prevs=($s-$limit); 
 			// calculate number of pages needing links
 			$pages=intval($numrows/$limit);
 			// $pages now contains int of pages needed unless there is a remainder from division
@@ -141,28 +149,30 @@
 			// check to see if last page
 			if (!((($s+$limit)/$limit)==$pages) && $pages!=1) {
 				// not last page so give NEXT link
-				$news=$s+$limit;
-				$sort_var = "'sort(\"".$supertrimmed."\", \"$sort\", \"$filter\", \"$news\")'"; ?>
-				<button class="page_buttons" style="margin-left:115px;" onclick=<?php $sort_var = "'sort(\"".$supertrimmed."\", \"$sort\", \"$filter\", \"$news\" )'"; echo $sort_var; ?> >Next Page</button> <?
+				$news=$s+$limit; 
+				echo "<script>var news = $news; var prevs = $prevs;</script>"?>
+				<div id="prev_show"><button class="page_buttons" id="prev" style="margin-left:115px; display:none;">Prev Page</button> </div>
+				<div id="next_show"><button class="page_buttons" id="next" style="margin-left:115px;">Next Page</button></div> <?
 			}
+		
 			?>
 			<div id="filters">
 				<button class="filter_buttons">
 Utilities:
-					<a href="#" onclick=<?php  $sort_var = "'sort(\"$supertrimmed\", \"$sort\", \"utils_included\", \"\")'"; echo $sort_var; ?> >[Yes]</a> /
-					<a href="#" onclick=<?php  $sort_var = "'sort(\"$supertrimmed\", \"$sort\", \"no_utils\", \"\")'"; echo $sort_var; ?>>[No]</a>
-				</button>
+					<a href="#">[Yes]</a> /
+					<a href="#" >[No]</a>
+				</button><br/>
 				<button class="filter_buttons" >
 Lease:
-					<a href="#" onclick=<?php  $sort_var = "'sort(\"$supertrimmed\", \"$sort\", \"lease_required\", \"\")'"; echo $sort_var; ?> >[Yes]</a> /
-					<a href="#" onclick=<?php  $sort_var = "'sort(\"$supertrimmed\", \"$sort\", \"no_lease\", \"\")'"; echo $sort_var; ?>>[No]</a>
-				</button>
+					<a href="#">[Yes]</a> /
+					<a href="#">[No]</a>
+				</button><br/>
 				<button class="filter_buttons" >
 Furnished:
-					<a href="#" onclick=<?php  $sort_var = "'sort(\"$supertrimmed\", \"$sort\", \"furnished\", \"\")'"; echo $sort_var; ?> >[Yes]</a> /
-					<a href="#" onclick=<?php  $sort_var = "'sort(\"$supertrimmed\", \"$sort\", \"no_furnished\", \"\")'"; echo $sort_var; ?>>[No]</a>
-				</button>
-			</div>
+					<a href="#">[Yes]</a> /
+					<a href="#">[No]</a>
+				</button><br/>
+			</div> <? } ?>
 			</div>
 		</div>
 		<div id="footer">
@@ -170,3 +180,29 @@ Furnished:
 		</div>
 	</body>
 </html>
+<script>
+		$(document).ready(function(){
+		//$("#search_results").on("mouseover", tester(list_info));
+		$('#next').on("click",function() {
+			$.get('new_sort.php?q=waterloo&sort=rating&filter=&s='+news, function(data) {
+				news = news + 5;
+				var result = $.parseJSON(data);
+				for (var i=0; i < 5; i++) {
+					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+					document.getElementById("dist"+i).innerHTML = result.result[i].distance;					
+				}
+				if (news > 5) {
+					document.getElementById("prev_show").style.display = "display:inline;";
+				}				
+			});
+		});
+		$('#prev').on("click",function() {
+			$.get('new_sort.php?q=waterloo&sort=rating&filter=&s=5', function(data) {
+				var result = $.parseJSON(data);
+				for (var i=0; i < 5; i++) {
+					document.getElementById(i).innerHTML = "$"+result.result[i].cost;					
+				}				
+			});
+		});
+	});
+</script>

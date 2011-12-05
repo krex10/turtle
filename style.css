@@ -6,7 +6,7 @@ body {
 
 #wrapper {
     width:600px;
-    margin-left:250px;
+    margin-left:230px;
     margin-top:180px;
     padding:10px;
     float:left;
@@ -24,22 +24,22 @@ body {
     margin:10px 0 10px 90px;
 }
 
-#title {
-    margin:0 0 10px -50px;
-}
-
 #zippy {
-    margin-top:-60px;
+    padding-top:10px; 
+    margin-bottom:-280px; 
+    margin-left:780px; 
+    padding-bottom:160px;
+    margin-top:-80px;
 }
 
 #green_page {
     background-color:#EEF3E2;
-    margin-top:80px;
+    margin-top: 70px;
     margin-bottom:0px;
-    margin-left:100px;
-    width:960px;
+    margin-left:250px;
+    width:760px;
     border-radius:20px;
-    height:500px;
+    height:470px;
     padding-bottom:0px;
 }
 
@@ -142,8 +142,8 @@ table.results tr, td, th, tbody {
     font-size:16px;
     color:black;
     font-weight:bold;
-    margin-left:12px;
-    margin-top:-40px;
+    margin-left:-50px;
+    margin-top:-25px;
 }
 
 .sort_buttons {
@@ -158,16 +158,23 @@ table.results tr, td, th, tbody {
 }
 
 .filter_buttons {
-    font-size:14px;
+    font-size:12px;
     color: white;
     background:red;
+    min-width:180px;
 }
 .filter_buttons:hover {
     background:#33A10B;
 }
 
+.filter_buttons p, .filter_buttons a {
+    text-align:justify;
+}
+
 #filters {
-    float:right;
+    position:absolute;
+    margin-left:570px;
+    margin-top:-100px;
 }
 
 .sort_buttons a {
@@ -179,6 +186,7 @@ table.results tr, td, th, tbody {
 
 .filter_buttons a {
     color:white;
+    text-decoration:none;
 }
 .filter_buttons a:hover {
     color:black;
