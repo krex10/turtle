@@ -35,30 +35,27 @@ if (!isset($var))
 	exit;
 
 }
-if (isset($filter)) {
-	$query = "Select * from temp where address like \"%$supertrimmed%\"";
-	//BUILD FILTER AND QUERY
-	if(strpos($filter, $pattern))
-		$filter_var = "Yes";
-	else
-		$filter_var = "No" ;
-	if(strpos($filter, "utils") === 0) {
-		$filter_array['utils'] = $filter_var;
-		$query .= "and utils_included = '$filter_array[utils]'";
-	}
-	else if(strpos($filter, "lease") === 0) {
-		$filter_array['lease'] = $filter_var;
-		$query .= "and lease_required = '$filter_array[lease]'";
-	}
-	else if(strpos($filter, "furnished") === 0) {
-		$filter_array['furnished'] = $filter_var;
-		$query .= "and furnished = '$filter_array[furnished]'";
-	}
-	$query .= "ORDER BY $sort";
+
+$query = "Select * from temp where address like \"%$supertrimmed%\"";
+//BUILD FILTER AND QUERY
+if(strpos($filter, $pattern))
+	$filter_var = "Yes";
+else
+	$filter_var = "No" ;
+if(strpos($filter, "utils") === 0) {
+	$filter_array['utils'] = $filter_var;
+	$query .= "and utils_included = '$filter_array[utils]'";
 }
-else {
-	//$query = "Select * from temp where address like \"%$supertrimmed%\" ORDER BY $sort"; 
+else if(strpos($filter, "lease") === 0) {
+	$filter_array['lease'] = $filter_var;
+	$query .= "and lease_required = '$filter_array[lease]'";
 }
+else if(strpos($filter, "furnished") === 0) {
+	$filter_array['furnished'] = $filter_var;
+	$query .= "and furnished = '$filter_array[furnished]'";
+}
+$query .= "ORDER BY $sort";
+
 $numresults=mysql_query($query) or die ($query);
 $totalrows=mysql_num_rows($numresults); 
 if ($totalrows == 0)

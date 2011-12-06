@@ -91,13 +91,22 @@ function more_info () {
 			if (filter == "utils_yes") {
 				document.getElementById("utils_yes").style.color = "white";
 				filter = "";
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			}
+			else if (filter != "")
+			{
+				document.getElementById("utils_yes").style.color = "black";
+				document.getElementById("utils_no").style.color = "white";
+				document.getElementById("lease_yes").style.color = "white";
+				document.getElementById("lease_no").style.color = "white";
+				document.getElementById("furnished_yes").style.color = "white";
+				document.getElementById("furnished_no").style.color = "white";
+				filter = "utils_yes";
 			}
 			else { 
 				filter = "utils_yes"; 
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 				document.getElementById("utils_yes").style.color = "black";
 			}
+			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -124,13 +133,22 @@ function more_info () {
 			if (filter == "utils_no") {
 				document.getElementById("utils_no").style.color = "white";
 				filter = "";
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			}
+			else if (filter != "")
+			{
+				document.getElementById("utils_yes").style.color = "white";
+				document.getElementById("utils_no").style.color = "black";
+				document.getElementById("lease_yes").style.color = "white";
+				document.getElementById("lease_no").style.color = "white";
+				document.getElementById("furnished_yes").style.color = "white";
+				document.getElementById("furnished_no").style.color = "white";
+				filter = "utils_no";
 			}
 			else { 
 				filter = "utils_no"; 
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 				document.getElementById("utils_no").style.color = "black";
 			}
+			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
@@ -157,13 +175,22 @@ function more_info () {
 			if (filter == "lease_yes") {
 				document.getElementById("lease_yes").style.color = "white";
 				filter = "";
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			}
+			else if (filter != "")
+			{
+				document.getElementById("utils_yes").style.color = "white";
+				document.getElementById("utils_no").style.color = "white";
+				document.getElementById("lease_yes").style.color = "black";
+				document.getElementById("lease_no").style.color = "white";
+				document.getElementById("furnished_yes").style.color = "white";
+				document.getElementById("furnished_no").style.color = "white";
+				filter = "lease_yes";
 			}
 			else { 
 				filter = "lease_yes"; 
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 				document.getElementById("lease_yes").style.color = "black";
 			}
+			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -190,13 +217,22 @@ function more_info () {
 			if (filter == "lease_no") {
 				document.getElementById("lease_no").style.color = "white";
 				filter = "";
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			}
+			else if (filter != "")
+			{
+				document.getElementById("utils_yes").style.color = "white";
+				document.getElementById("utils_no").style.color = "white";
+				document.getElementById("lease_yes").style.color = "white";
+				document.getElementById("lease_no").style.color = "black";
+				document.getElementById("furnished_yes").style.color = "white";
+				document.getElementById("furnished_no").style.color = "white";
+				filter = "lease_no";
 			}
 			else { 
 				filter = "lease_no"; 
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 				document.getElementById("lease_no").style.color = "black";
 			}
+			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -223,13 +259,22 @@ function more_info () {
 			if (filter == "furnished_yes") {
 				document.getElementById("furnished_yes").style.color = "white";
 				filter = "";
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			}
+			else if (filter != "")
+			{
+				document.getElementById("utils_yes").style.color = "white";
+				document.getElementById("utils_no").style.color = "white";
+				document.getElementById("lease_yes").style.color = "white";
+				document.getElementById("lease_no").style.color = "white";
+				document.getElementById("furnished_yes").style.color = "black";
+				document.getElementById("furnished_no").style.color = "white";
+				filter = "furnished_yes";
 			}
 			else { 
 				filter = "furnished_yes"; 
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 				document.getElementById("furnished_yes").style.color = "black";
 			}
+			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -256,13 +301,22 @@ function more_info () {
 			if (filter == "furnished_no") {
 				document.getElementById("furnished_no").style.color = "white";
 				filter = "";
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			}
+			else if (filter != "")
+			{
+				document.getElementById("utils_yes").style.color = "white";
+				document.getElementById("utils_no").style.color = "white";
+				document.getElementById("lease_yes").style.color = "white";
+				document.getElementById("lease_no").style.color = "white";
+				document.getElementById("furnished_yes").style.color = "white";
+				document.getElementById("furnished_no").style.color = "black";
+				filter = "furnished_no";
 			}
 			else { 
 				filter = "furnished_no"; 
-				get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 				document.getElementById("furnished_no").style.color = "black";
 			}
+			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
