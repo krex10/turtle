@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 if (!isset($_SESSION)) { 
 	echo "Session not set, please verify cookie settings and reload the page"; 
 	exit;
@@ -10,14 +9,11 @@ include "config.php";
 //query and position #
 $var = @$_GET['q'] ;
 $s = @$_GET['s'];
+$filter = @$_GET['filter'];
 //sort
 $sort = @$_GET['sort'];
 if (!$sort)
 	{$sort = "rating";}
-//set filters
-$filter = @$_GET['filter'];
-$pattern = "yes";
-$filter_array = array("utils" => "None", "lease" => "None", "furnished" => "None");
 $trimmed = trim($var); //trim whitespace from the stored variable
 $supertrimmed = mysql_escape_string($trimmed);
 // rows to return
@@ -33,30 +29,71 @@ if (!isset($var))
 {
 	echo "{'error' : 'We dont seem to have a search parameter!'}";
 	exit;
-
 }
-
 $query = "Select * from temp where address like \"%$supertrimmed%\"";
-//BUILD FILTER AND QUERY
-if(strpos($filter, $pattern))
-	$filter_var = "Yes";
-else
-	$filter_var = "No" ;
-if(strpos($filter, "utils") === 0) {
-	$filter_array['utils'] = $filter_var;
-	$query .= "and utils_included = '$filter_array[utils]'";
+if (isset($_SESSION['filters']))//session exists, so initialize working array with Session array
+	$filter_array = $_SESSION['filters'];
+else //session does not exist, initialize empty working array
+	$filter_array = array('utils'=>'None','lease'=>'None','furnished'=>'None');
+//BUILD FILTERS
+if(isset($filter)) {
+	if(strpos($filter, "yes") || strpos($filter, "no")) {
+		if(strpos($filter, "yes"))
+			{$filter_var = "Yes";}
+		else
+			{$filter_var = "No";}
+		if(strpos($filter, "utils") === 0) {
+			$filter_array['utils'] = $filter_var;
+			$query .= "and utils_included = '$filter_array[utils]'";
+		}
+		else if (strpos($filter, "lease") === 0) {
+			$filter_array['lease'] = $filter_var;
+			$query .= "and lease_required = '$filter_array[lease]'";
+		}
+		else if (strpos($filter, "furnished") === 0) {
+			$filter_array['furnished'] = $filter_var;
+			$query .= "and furnished = '$filter_array[furnished]'";
+		}
+	}
+	else if (strpos($filter, "reset")) {
+		$filter_var = "None";
+		if(strpos($filter, "utils") === 0) {
+			$filter_array['utils'] = $filter_var;
+			if ($filter_array['lease'] != "None")
+				$query .= "and lease_required = '$filter_array[lease]'";
+			if ($filter_array['furnished'] != "None")
+				$query .= "and furnished = '$filter_array[furnished]'";
+		}
+		else if (strpos($filter, "lease") === 0) {
+			$filter_array['lease'] = $filter_var;
+			if ($filter_array['utils'] != "None")
+				$query .= "and utils_included = '$filter_array[utils]'";
+			if ($filter_array['furnished'] != "None")
+				$query .= "and furnished = '$filter_array[furnished]'";
+		}
+		else if (strpos($filter, "furnished") === 0) {
+			$filter_array['furnished'] = $filter_var;
+			if ($filter_array['utils'] != "None")
+				$query .= "and utils_included = '$filter_array[utils]'";
+			if ($filter_array['lease'] != "None")
+				$query .= "and lease_required = '$filter_array[lease]'";
+		}
+	}
+	$_SESSION['filters'] = $filter_array;
 }
-else if(strpos($filter, "lease") === 0) {
-	$filter_array['lease'] = $filter_var;
-	$query .= "and lease_required = '$filter_array[lease]'";
-}
-else if(strpos($filter, "furnished") === 0) {
-	$filter_array['furnished'] = $filter_var;
-	$query .= "and furnished = '$filter_array[furnished]'";
+else {
+	if($filter_array['utils'] != "None") {
+		$query .= "and utils_included = '$filter_array[utils]'";
+	}
+	if($filter_array['lease'] != "None") {
+		$query .= "and lease_required = '$filter_array[lease]'";
+	}
+	if($filter_array['furnished'] != "None") {
+		$query .= "and furnished = '$filter_array[furnished]'";
+	}
 }
 $query .= "ORDER BY $sort";
-
-$numresults=mysql_query($query) or die ($query);
+$numresults=mysql_query($query);
 $totalrows=mysql_num_rows($numresults); 
 if ($totalrows == 0)
 {
@@ -81,6 +118,6 @@ else {
 		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\"},";
 		$count++;
 	}
-	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\"}";
+	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\", \"debug\": \"".$filter."\"}";
 }
 ?>

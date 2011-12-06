@@ -5,6 +5,7 @@
 		<title>Turtle&#39;s Den</title>
 		<script language="JavaScript" src="jquery.js"></script>
 		<script language="JavaScript" src="jquery.qtip.min.js"></script>
+		<script language="JavaScript" src="filter.js"></script>
 		<script language="JavaScript" src="info.js"></script>
 		<script language="JavaScript" src="contact.js"></script>
 	</head>
@@ -44,9 +45,22 @@
 					?> <p>We dont seem to have a search parameter!</p> <?php
 					exit;
 				}
-				$query = "Select * from temp where address like \"%$supertrimmed%\" ORDER BY $sort"; 
-				$numresults=mysql_query($query) or die ($query);
-				$numrows=mysql_num_rows($numresults); 
+				$query = "Select * from temp where address like \"%$supertrimmed%\"";
+				if (isset($_SESSION['filters'])) {
+					$filters = $_SESSION['filters'];
+					if($filters['utils'] != "None") {
+						$query .= "and utils_included = '$filters[utils]'";
+					}
+					if($filters['lease'] != "None") {
+						$query .= "and lease_required = '$filters[lease]'";
+					}
+					if($filters['furnished'] != "None") {
+						$query .= "and furnished = '$filters[furnished]'";
+					}
+				}
+				$query .= "ORDER BY $sort";
+				$numresults=mysql_query($query);
+				$numrows=mysql_num_rows($numresults);
 				if ($numrows == 0)
 				{
 					?>
@@ -160,6 +174,10 @@
 			</div>
 	    </div><!--end wrapper -->
 	</body>
+	<?
+	if(isset($filters))
+		echo "<script>$(document).ready(filter_color('$filters[utils]','$filters[lease]','$filters[furnished]'));</script>";
+	?>
 </html>
 <script>
 $(document).ready(more_info());

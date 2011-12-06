@@ -1,13 +1,13 @@
 function more_info () {
 		var i;
-		var counter = 0; var result; var get_link; var numrows; var padding; var padding_left; var filter;
+		var counter = 0; var result; var get_link; var numrows; var padding; var padding_left;
 		$(document).ready(function(){
 		$('#next').on("click",function() {
 			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s='+news+'&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
-				prevs = news - 5;
+				prevs = news - 5; 
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
@@ -27,9 +27,16 @@ function more_info () {
 						document.getElementById("prev_show").style.visibility = "visible";
 					}
 					counter++;
+					a = news; b = news - 4; totalrows = result.totalrows;
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
-				else 
-					console.log("SQL QUERY FAILED");
+				else{
+					for (i= 0; i < 5; i++) {
+						document.getElementById("cost"+i).style.visibility = "hidden";
+						document.getElementById("dist"+i).style.visibility = "hidden";
+					}
+				}
 			});
 		});
 		$('#prev').on("click",function() {
@@ -37,7 +44,7 @@ function more_info () {
 			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s='+prevs+'&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
-				numrows = result.numrows;
+				numrows = result.numrows; 
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
@@ -47,11 +54,14 @@ function more_info () {
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
 					}
 					news = news - 5;
-					prevs = prevs - 5;
+					prevs = prevs - 5; a = news; b = prevs +1; totalrows = result.totalrows;
 					if (prevs <= 5 && counter == 1) {
 						document.getElementById("prev_show").style.visibility = "hidden";
 					}
 					counter--;
+					a = news; b = news - 4; totalrows = result.totalrows;
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
 				else 
 					console.log("SQL QUERY FAILED");
@@ -88,65 +98,58 @@ function more_info () {
 			});
 		});
 		$('#utils_yes').on("click",function() {
-			if (filter == "utils_yes") {
+			if (document.getElementById("utils_yes").style.color == "black") {
 				document.getElementById("utils_yes").style.color = "white";
-				filter = "";
-			}
-			else if (filter != "")
-			{
-				document.getElementById("utils_yes").style.color = "black";
-				document.getElementById("utils_no").style.color = "white";
-				document.getElementById("lease_yes").style.color = "white";
-				document.getElementById("lease_no").style.color = "white";
-				document.getElementById("furnished_yes").style.color = "white";
-				document.getElementById("furnished_no").style.color = "white";
-				filter = "utils_yes";
+				filter = "utils_reset";
 			}
 			else { 
 				filter = "utils_yes"; 
 				document.getElementById("utils_yes").style.color = "black";
+				document.getElementById("utils_no").style.color = "white";
 			}
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
 				news = 5;
-				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
-				for (i=0; i < numrows; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-					padding = result.result[i].distance * 15;
-					padding_left = padding+"px";
-					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows; var debug = result.debug;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+					}
+					if (numrows < 5) {
+						for (i= 4; i >= numrows ; i--) {
+							document.getElementById("cost"+i).style.visibility = "hidden";
+							document.getElementById("dist"+i).style.visibility = "hidden";
+						}
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
+					console.log(debug);
 				}
-				if (numrows < 5) {
-					for (i= 4; i >= numrows ; i--) {
+				else {
+					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
 					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
 				}
-				document.getElementById("showing_results").innerHTML = 
-				"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 			});
 		});
 		$('#utils_no').on("click",function() {
-			if (filter == "utils_no") {
+			if (document.getElementById("utils_no").style.color == "black") {
 				document.getElementById("utils_no").style.color = "white";
-				filter = "";
-			}
-			else if (filter != "")
-			{
-				document.getElementById("utils_yes").style.color = "white";
-				document.getElementById("utils_no").style.color = "black";
-				document.getElementById("lease_yes").style.color = "white";
-				document.getElementById("lease_no").style.color = "white";
-				document.getElementById("furnished_yes").style.color = "white";
-				document.getElementById("furnished_no").style.color = "white";
-				filter = "utils_no";
+				filter = "utils_reset";
 			}
 			else { 
 				filter = "utils_no"; 
 				document.getElementById("utils_no").style.color = "black";
+				document.getElementById("utils_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
@@ -154,41 +157,42 @@ function more_info () {
 				numrows = result.numrows; 
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
-				for (i=0; i < numrows; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-					padding = result.result[i].distance * 15;
-					padding_left = padding+"px";
-					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+					}
+					if (numrows < 5) {
+						for (i= 4; i >= numrows ; i--) {
+							document.getElementById("cost"+i).style.visibility = "hidden";
+							document.getElementById("dist"+i).style.visibility = "hidden";
+						}
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
-				if (numrows < 5) {
-					for (i= 4; i >= numrows ; i--) {
+				else {
+					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
 					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
 				}
-				document.getElementById("showing_results").innerHTML = 
-				"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 			});
 		});
 		$('#lease_yes').on("click",function() {
-			if (filter == "lease_yes") {
+			if (document.getElementById("lease_yes").style.color == "black") {
 				document.getElementById("lease_yes").style.color = "white";
-				filter = "";
-			}
-			else if (filter != "")
-			{
-				document.getElementById("utils_yes").style.color = "white";
-				document.getElementById("utils_no").style.color = "white";
-				document.getElementById("lease_yes").style.color = "black";
-				document.getElementById("lease_no").style.color = "white";
-				document.getElementById("furnished_yes").style.color = "white";
-				document.getElementById("furnished_no").style.color = "white";
-				filter = "lease_yes";
+				filter = "lease_reset";
 			}
 			else { 
 				filter = "lease_yes"; 
 				document.getElementById("lease_yes").style.color = "black";
+				document.getElementById("lease_no").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
@@ -196,41 +200,42 @@ function more_info () {
 				numrows = result.numrows;
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
-				for (i=0; i < numrows; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-					padding = result.result[i].distance * 15;
-					padding_left = padding+"px";
-					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+					}
+					if (numrows < 5) {
+						for (i= 4; i >= numrows ; i--) {
+							document.getElementById("cost"+i).style.visibility = "hidden";
+							document.getElementById("dist"+i).style.visibility = "hidden";
+						}
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
-				if (numrows < 5) {
-					for (i= 4; i >= numrows ; i--) {
+				else {
+					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
 					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
 				}
-				document.getElementById("showing_results").innerHTML = 
-				"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 			});
 		});
 		$('#lease_no').on("click",function() {
-			if (filter == "lease_no") {
+			if (document.getElementById("lease_no").style.color == "black") {
 				document.getElementById("lease_no").style.color = "white";
-				filter = "";
-			}
-			else if (filter != "")
-			{
-				document.getElementById("utils_yes").style.color = "white";
-				document.getElementById("utils_no").style.color = "white";
-				document.getElementById("lease_yes").style.color = "white";
-				document.getElementById("lease_no").style.color = "black";
-				document.getElementById("furnished_yes").style.color = "white";
-				document.getElementById("furnished_no").style.color = "white";
-				filter = "lease_no";
+				filter = "lease_reset";
 			}
 			else { 
 				filter = "lease_no"; 
 				document.getElementById("lease_no").style.color = "black";
+				document.getElementById("lease_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
@@ -238,41 +243,42 @@ function more_info () {
 				numrows = result.numrows;
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
-				for (i=0; i < numrows; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-					padding = result.result[i].distance * 15;
-					padding_left = padding+"px";
-					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+					}
+					if (numrows < 5) {
+						for (i= 4; i >= numrows ; i--) {
+							document.getElementById("cost"+i).style.visibility = "hidden";
+							document.getElementById("dist"+i).style.visibility = "hidden";
+						}
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
-				if (numrows < 5) {
-					for (i= 4; i >= numrows ; i--) {
+				else {
+					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
 					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
 				}
-				document.getElementById("showing_results").innerHTML = 
-				"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 			});
 		});
 		$('#furnished_yes').on("click",function() {
-			if (filter == "furnished_yes") {
+			if (document.getElementById("furnished_yes").style.color == "black") {
 				document.getElementById("furnished_yes").style.color = "white";
-				filter = "";
-			}
-			else if (filter != "")
-			{
-				document.getElementById("utils_yes").style.color = "white";
-				document.getElementById("utils_no").style.color = "white";
-				document.getElementById("lease_yes").style.color = "white";
-				document.getElementById("lease_no").style.color = "white";
-				document.getElementById("furnished_yes").style.color = "black";
-				document.getElementById("furnished_no").style.color = "white";
-				filter = "furnished_yes";
+				filter = "furnished_reset";
 			}
 			else { 
 				filter = "furnished_yes"; 
 				document.getElementById("furnished_yes").style.color = "black";
+				document.getElementById("furnished_no").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
@@ -280,41 +286,42 @@ function more_info () {
 				numrows = result.numrows;
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
-				for (i=0; i < numrows; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-					padding = result.result[i].distance * 15;
-					padding_left = padding+"px";
-					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+					}
+					if (numrows < 5) {
+						for (i= 4; i >= numrows ; i--) {
+							document.getElementById("cost"+i).style.visibility = "hidden";
+							document.getElementById("dist"+i).style.visibility = "hidden";
+						}
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
-				if (numrows < 5) {
-					for (i= 4; i >= numrows ; i--) {
+				else {
+					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
 					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
 				}
-				document.getElementById("showing_results").innerHTML = 
-				"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 			});
 		});
 		$('#furnished_no').on("click",function() {
-			if (filter == "furnished_no") {
+			if (document.getElementById("furnished_no").style.color == "black") {
 				document.getElementById("furnished_no").style.color = "white";
-				filter = "";
-			}
-			else if (filter != "")
-			{
-				document.getElementById("utils_yes").style.color = "white";
-				document.getElementById("utils_no").style.color = "white";
-				document.getElementById("lease_yes").style.color = "white";
-				document.getElementById("lease_no").style.color = "white";
-				document.getElementById("furnished_yes").style.color = "white";
-				document.getElementById("furnished_no").style.color = "black";
-				filter = "furnished_no";
+				filter = "furnished_reset";
 			}
 			else { 
 				filter = "furnished_no"; 
 				document.getElementById("furnished_no").style.color = "black";
+				document.getElementById("furnished_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
@@ -322,21 +329,31 @@ function more_info () {
 				numrows = result.numrows;
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
-				for (i=0; i < numrows; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-					padding = result.result[i].distance * 15;
-					padding_left = padding+"px";
-					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+					}
+					if (numrows < 5) {
+						for (i= 4; i >= numrows ; i--) {
+							document.getElementById("cost"+i).style.visibility = "hidden";
+							document.getElementById("dist"+i).style.visibility = "hidden";
+						}
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
-				if (numrows < 5) {
-					for (i= 4; i >= numrows ; i--) {
+				else {
+					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
 					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
 				}
-				document.getElementById("showing_results").innerHTML = 
-				"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 			});
 		});
 	});
