@@ -73,7 +73,7 @@
 	    						<strong> <?php $a = $s + ($limit) ;
 	      					if ($a > $numrows) { $a = $numrows ; }
 	      					$b = $s + 1 ;
-	      					echo "<p class='showing'>Showing results $b to $a of $numrows"; ?>
+	      					echo "<div id='showing_results'><p class='showing'>Showing results $b to $a of $numrows</p></div><script>var b = $b; var a = $a; var totalrows = $numrows;</script>"; ?>
 							</td>
 							<td>
 								<form style="margin-right:190px; vertical-align:middle; margin-top:8px; margin-bottom:0px;" action="new_search.php" method="get" class="search_form">

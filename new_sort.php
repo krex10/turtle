@@ -16,7 +16,7 @@ if (!$sort)
 	{$sort = "rating";}
 //set filters
 $filter = @$_GET['filter'];
-$pattern = "_yes";
+$pattern = "yes";
 $filter_array = array("utils" => "None", "lease" => "None", "furnished" => "None");
 $trimmed = trim($var); //trim whitespace from the stored variable
 $supertrimmed = mysql_escape_string($trimmed);
@@ -35,36 +35,33 @@ if (!isset($var))
 	exit;
 
 }
-if ($filter) {
-	$exists = 0;
-	foreach($filter_array as $f) {
-		if(preg_match($filter, $f))
-			$exists = 1;
+if (isset($filter)) {
+	$query = "Select * from temp where address like \"%$supertrimmed%\"";
+	//BUILD FILTER AND QUERY
+	if(strpos($filter, $pattern))
+		$filter_var = "Yes";
+	else
+		$filter_var = "No" ;
+	if(strpos($filter, "utils") === 0) {
+		$filter_array['utils'] = $filter_var;
+		$query .= "and utils_included = '$filter_array[utils]'";
 	}
-	//find which filter it is and insert yes/no
-	/*
-	if (!$exists) { 
-		preg_match();
-		array_push ($filter_array, $filter);
-		if(preg_match($pattern, $filter))
-			array_push ($filter_var, "Yes");
-		else
-			array_push ($filter_var, "No");
+	else if(strpos($filter, "lease") === 0) {
+		$filter_array['lease'] = $filter_var;
+		$query .= "and lease_required = '$filter_array[lease]'";
 	}
-	$array_length = count($filter_array);
-	$query = "Select * from temp where address like \"%$supertrimmed%\" WHERE";
-	/*for ($i = 0; $i < $array_length; $i++) {
-			$query .= "$filter_array[$i] = $filter_var[$i] AND"; 
+	else if(strpos($filter, "furnished") === 0) {
+		$filter_array['furnished'] = $filter_var;
+		$query .= "and furnished = '$filter_array[furnished]'";
 	}
-	$query .= "$filter_array[$i] = $filter_var[$i]"; }
-	$query .= "ORDER BY $sort";*/
+	$query .= "ORDER BY $sort";
 }
 else {
-	$query = "Select * from temp where address like \"%$supertrimmed%\" ORDER BY $sort"; 
+	//$query = "Select * from temp where address like \"%$supertrimmed%\" ORDER BY $sort"; 
 }
 $numresults=mysql_query($query) or die ($query);
-$numrows=mysql_num_rows($numresults); 
-if ($numrows == 0)
+$totalrows=mysql_num_rows($numresults); 
+if ($totalrows == 0)
 {
 	echo "{\"error_msg\": \"null_query\"}";
 	exit;
@@ -87,6 +84,6 @@ else {
 		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\"},";
 		$count++;
 	}
-	echo "], \"numrows\": \"".$numrows."\"}";
+	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\"}";
 }
 ?>
