@@ -368,3 +368,42 @@ function more_info () {
 		});
 	});
 }
+
+function new_search (query) {
+	q = document.forms("search_form")("q").value; 
+	get_link = 'new_sort.php?q='+query+'&sort='+sort;
+	$.get(get_link, function(data) {
+		result = $.parseJSON(data);
+		numrows = result.numrows;
+		prevs = news - 5; 
+		if (result.error_msg != 'null_query') {
+			for (i=0; i < numrows; i++) {
+				document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+				document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+				padding = result.result[i].distance * 15;
+				padding_left = padding+"px";
+				document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				news++;				
+			}
+			if (numrows < 5) {
+				for (i= 4; i >= numrows ; i--) {
+					document.getElementById("cost"+i).style.visibility = "hidden";
+					document.getElementById("dist"+i).style.visibility = "hidden";
+				}
+			}
+			if (news >= 5 && counter == 0) {
+				document.getElementById("prev_show").style.visibility = "visible";
+			}
+			counter++;
+			a = news; b = news - 4; totalrows = result.totalrows;
+			document.getElementById("showing_results").innerHTML = 
+			"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
+		}
+		else{
+			for (i= 0; i < 5; i++) {
+				document.getElementById("cost"+i).style.visibility = "hidden";
+				document.getElementById("dist"+i).style.visibility = "hidden";
+			}
+		}
+	});
+}

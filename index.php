@@ -18,9 +18,9 @@ include "config.php";
         <div id="content">
             <div style=""> <img src="turtle3.png"/> </div>
             <div id="form">
-                <form action="new_search.php" method="get" class="search_form">
+                <form action="new_search.php" method="get" class="search_form" name="search_form" >
                     <label for="q"></label>
-                    <input onFocus="this.value = (this.value=='Where are you living?')? '' : this.value;" value="Where are you living?" type="text" name="q"  class="search" /><br/>
+                    <input onload ="document.search_form.q.focus();" onFocus="this.value = (this.value=='Where are you living?')? '' : this.value;" value="Where are you living?" type="text" name="q"  class="search" /><br/>
                     <button class="search">New search</button>
                 </form>
             </div> <!--end form -->
