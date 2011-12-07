@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 }
 
 include "config.php";
-//query and position #
+//query ,position # and filter
 $var = @$_GET['q'] ;
 $s = @$_GET['s'];
 $filter = @$_GET['filter'];
@@ -30,31 +30,50 @@ if (!isset($var))
 	echo "{'error' : 'We dont seem to have a search parameter!'}";
 	exit;
 }
+//first part of query = constant
 $query = "Select * from temp where address like \"%$supertrimmed%\"";
-if (isset($_SESSION['filters']))//session exists, so initialize working array with Session array
+//session exists, so initialize working array with Session array
+if (isset($_SESSION['filters']))
 	$filter_array = $_SESSION['filters'];
-else //session does not exist, initialize empty working array
+//session does not exist, initialize empty working array
+else 
 	$filter_array = array('utils'=>'None','lease'=>'None','furnished'=>'None');
 //BUILD FILTERS
 if(isset($filter)) {
+	//If filter is set to update options: None, Yes, No -> Yes/No
 	if(strpos($filter, "yes") || strpos($filter, "no")) {
+		//check to see if Filter is Yes/No and set the var
 		if(strpos($filter, "yes"))
 			{$filter_var = "Yes";}
 		else
 			{$filter_var = "No";}
+		//Update whichever filter was set and set the 2 other from Session
 		if(strpos($filter, "utils") === 0) {
 			$filter_array['utils'] = $filter_var;
 			$query .= "and utils_included = '$filter_array[utils]'";
+			if ($filter_array['lease'] != "None")
+				$query .= "and lease_required = '$filter_array[lease]'";
+			if ($filter_array['furnished'] != "None")
+				$query .= "and furnished = '$filter_array[furnished]'";
 		}
 		else if (strpos($filter, "lease") === 0) {
 			$filter_array['lease'] = $filter_var;
 			$query .= "and lease_required = '$filter_array[lease]'";
+			if ($filter_array['utils'] != "None")
+				$query .= "and utils_included = '$filter_array[utils]'";
+			if ($filter_array['furnished'] != "None")
+				$query .= "and furnished = '$filter_array[furnished]'";
 		}
 		else if (strpos($filter, "furnished") === 0) {
 			$filter_array['furnished'] = $filter_var;
 			$query .= "and furnished = '$filter_array[furnished]'";
+			if ($filter_array['utils'] != "None")
+				$query .= "and utils_included = '$filter_array[utils]'";
+			if ($filter_array['lease'] != "None")
+				$query .= "and lease_required = '$filter_array[lease]'";
 		}
 	}
+	//If filter is set to reset an option
 	else if (strpos($filter, "reset")) {
 		$filter_var = "None";
 		if(strpos($filter, "utils") === 0) {
@@ -81,6 +100,7 @@ if(isset($filter)) {
 	}
 	$_SESSION['filters'] = $filter_array;
 }
+//if no filter was set
 else {
 	if($filter_array['utils'] != "None") {
 		$query .= "and utils_included = '$filter_array[utils]'";
@@ -94,7 +114,8 @@ else {
 }
 $query .= "ORDER BY $sort";
 $numresults=mysql_query($query);
-$totalrows=mysql_num_rows($numresults); 
+$totalrows=mysql_num_rows($numresults);
+//if no results returned for query
 if ($totalrows == 0)
 {
 	echo "{\"error_msg\": \"null_query\"}";

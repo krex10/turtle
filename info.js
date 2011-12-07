@@ -73,13 +73,18 @@ function more_info () {
 				news = 5;
 				result = $.parseJSON(data);
 				numrows = result.numrows;
-				for (i=0; i < numrows; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-					padding = result.result[i].distance * 15;
-					padding_left = padding+"px";
-					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+					}
+					document.getElementById("sort_price").style.color = "black";
 				}
+				else 
+					console.log("SQL QUERY FAILED");
 			});
 		});
 		$('#sort_distance').on("click",function() {
@@ -88,13 +93,18 @@ function more_info () {
 				news = 5;
 				result = $.parseJSON(data);
 				numrows = result.numrows;
-				for (i=0; i < numrows; i++) {
-					document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-					document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-					var padding = result.result[i].distance * 15;
-					var padding_left = padding+"px";
-					document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						var padding = result.result[i].distance * 15;
+						var padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+					}
+					document.getElementById("sort_distance").style.color = "black";
 				}
+				else 
+					console.log("SQL QUERY FAILED");
 			});
 		});
 		$('#utils_yes').on("click",function() {
