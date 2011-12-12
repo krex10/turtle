@@ -222,3 +222,5 @@ a.footer_links:hover {
 #prev_show {
     visibility:hidden;
 }
+
+#demo-frame > div.demo { padding: 10px !important; };

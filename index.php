@@ -20,7 +20,7 @@ include "config.php";
             <div id="form">
                 <form action="new_search.php" method="get" class="search_form" name="search_form" >
                     <label for="q"></label>
-                    <input onload ="document.search_form.q.focus();" onFocus="this.value = (this.value=='Where are you living?')? '' : this.value;" value="Where are you living?" type="text" name="q"  class="search" /><br/>
+                    <input onload ="document.search_form.q.focus();" onFocus="this.value = (this.value=='Where are you moving to?')? '' : this.value;" value="Where are you moving to?" type="text" name="q"  class="search" /><br/>
                     <button class="search">New search</button>
                 </form>
             </div> <!--end form -->

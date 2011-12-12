@@ -1,13 +1,20 @@
 <?php session_start(); ?>
 <html>
 	<head>
-		<link rel="stylesheet" type="text/css" href="style.css" />
 		<title>Turtle&#39;s Den</title>
 		<script language="JavaScript" src="jquery.js"></script>
 		<script language="JavaScript" src="jquery.qtip.min.js"></script>
 		<script language="JavaScript" src="filter.js"></script>
 		<script language="JavaScript" src="info.js"></script>
 		<script language="JavaScript" src="contact.js"></script>
+		<link rel="stylesheet" href="jquery-ui-1.8.16.custom/development-bundle/themes/base/jquery.ui.all.css">
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.core.js"></script>
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.widget.js"></script>
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.mouse.js"></script>
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.slider.js"></script>
+		<link rel="stylesheet" href="jquery-ui-1.8.16.custom/development-bundle/demos/demos.css">
+		<script src="tools/slider.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -57,6 +64,10 @@
 					if($filters['furnished'] != "None") {
 						$query .= "and furnished = '$filters[furnished]'";
 					}
+					if($filters['max_dist'] != "None") {
+						$query .= "and distance <= '$filters[max_dist]'";
+						echo "<script>var max_dist = $filters[max_dist];</script>";
+					}
 				}
 				$query .= "ORDER BY $sort";
 				$numresults=mysql_query($query);
@@ -67,8 +78,7 @@
 					<p style="margin-left:80px; margin-top:20px;" class="showing">Sorry, your search for "<?php echo "$supertrimmed"; ?>" did not return any results.</p>
 					<form style="margin-left:200px;" action="new_search.php" method="get" class="search_form">
 	                    <label for="q"></label>
-	                    <input onFocus="this.value = (this.value=='new search')? '' : this.value;" value="new search" type="text" name="q"  class="search" /><br/>
-	                    <button class="search">Search</button>
+	                    <input onFocus="this.value = (this.value=='new search') ? '' : this.value;" value="new search" type="text" name="q"  class="search" />
 	                </form> <?php
 	 			}
 				else {
@@ -90,9 +100,9 @@
 	      					echo "<div id='showing_results'><p class='showing'>Showing results $b to $a of $numrows</p></div><script>var b = $b; var a = $a; var totalrows = $numrows;</script>"; ?>
 							</td>
 							<td>
-								<form style="margin-right:190px; vertical-align:middle; margin-top:8px; margin-bottom:0px;"  onsubmit="new_search();" method="get" class="search_form" name="search_form">
+								<form style="margin-right:190px; vertical-align:middle; margin-top:8px; margin-bottom:0px;"  class="search_form" name="search_form" id="re_search">
 			                    <label for="q"></label>
-			                    <input onFocus="this.value = (this.value=='<? echo $var; ?>')? '' : this.value;" value="<? echo $var; ?>" type="text" name="q"  class="search2" />
+			                    <input onFocus="this.value = (this.value=='<? echo $var; ?>')? '' : this.value;" value="<? echo $var; ?>" type="text" name="q"  class="search2"/>
 			                	</form>
 							</td>
 						</tr>
@@ -103,8 +113,17 @@
 	        				<td>
 								<button class="sort_buttons" id="sort_price" style="" >Price</button>
 							</td>
-	        				<td style="padding-left:25px;" style="vertical-align:top; text-align:top;">
-								1 km<button style="" ><hr  id="sort_distance" class="sort_buttons" style="width:380px; height:3px;"/></button>30 km
+	        				<td style="padding-left:0px;" style="vertical-align:top; text-align:top;">
+								<div class="demo" style="margin-top:-45px; margin-bottom:0;">
+
+								<p>
+									<label style="border-radius:5px; border:0; width:auto; margin-left:-300px;" class="sort_buttons" id="sort_distance" for="distance">Distance:</label>
+									<input type="text" id="distance" style="border:0; color:black; text-align:center; font-weight:bold; font-size:14px; width:55px; background:transparent;" readonly="readonly"/>
+								</p>
+
+								<div id="slider-range-min" style="width:470px;"></div>
+
+								</div><!-- End demo -->
 							</td>
 						</tr>
 						<?php
@@ -151,7 +170,7 @@
 					<div id="prev_show"><button class="page_buttons" id="prev" style="">Prev Page</button> </div>
 					<div id="next_show"><button class="page_buttons" id="next" style="margin-top:-28px; margin-left:100px;">Next Page</button></div> <?
 				}
-		
+	}
 				?>
 					<div id="filters">
 						<button class="filter_buttons">Utilities:
@@ -166,7 +185,7 @@
 							<a href="#" id="furnished_yes">[Yes]</a> /
 							<a href="#" id="furnished_no">[No]</a>
 						</button><br/>
-					</div> <? } ?>
+					</div>
 				</div><!--end search_result -->
 			</div><!--end green_page -->
 			<div id="footer" style="">
