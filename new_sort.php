@@ -10,10 +10,6 @@ include "config.php";
 $var = @$_GET['q'] ;
 $s = @$_GET['s'];
 $filter = @$_GET['filter'];
-//sort
-$sort = @$_GET['sort'];
-if (!$sort)
-	{$sort = "rating";}
 $trimmed = trim($var); //trim whitespace from the stored variable
 $supertrimmed = mysql_escape_string($trimmed);
 // rows to return
@@ -37,7 +33,7 @@ if (isset($_SESSION['filters']))
 	$filter_array = $_SESSION['filters'];
 //session does not exist, initialize empty working array
 else 
-	$filter_array = array('utils'=>'None','lease'=>'None','furnished'=>'None', 'max_dist'=>'None');
+	$filter_array = array('utils'=>'None','lease'=>'None','furnished'=>'None', 'max_dist'=>'None', 'sort'=>'rating');
 //BUILD FILTERS
 if(isset($filter)) {
 	//If filter is set to update options: None, Yes, No -> Yes/No
@@ -88,6 +84,8 @@ if(isset($filter)) {
 				$query .= "and lease_required = '$filter_array[lease]'";
 			if ($filter_array['furnished'] != "None")
 				$query .= "and furnished = '$filter_array[furnished]'";
+			if ($filter_array['max_dist'] != "None")
+				$query .= "and distance <= '$filter_array[max_dist]'";
 		}
 		else if (strpos($filter, "lease") === 0) {
 			$filter_array['lease'] = $filter_var;
@@ -95,6 +93,8 @@ if(isset($filter)) {
 				$query .= "and utils_included = '$filter_array[utils]'";
 			if ($filter_array['furnished'] != "None")
 				$query .= "and furnished = '$filter_array[furnished]'";
+			if ($filter_array['max_dist'] != "None")
+				$query .= "and distance <= '$filter_array[max_dist]'";
 		}
 		else if (strpos($filter, "furnished") === 0) {
 			$filter_array['furnished'] = $filter_var;
@@ -102,9 +102,22 @@ if(isset($filter)) {
 				$query .= "and utils_included = '$filter_array[utils]'";
 			if ($filter_array['lease'] != "None")
 				$query .= "and lease_required = '$filter_array[lease]'";
+			if ($filter_array['max_dist'] != "None")
+				$query .= "and distance <= '$filter_array[max_dist]'";
+		}
+		else if (strpos($filter, "sort") === 0) {
+			$filter_array['sort'] = "rating";
+			if ($filter_array['furnished'] != "None")
+				$query .= "and furnished = '$filter_array[furnished]'";
+			if ($filter_array['utils'] != "None")
+				$query .= "and utils_included = '$filter_array[utils]'";
+			if ($filter_array['lease'] != "None")
+				$query .= "and lease_required = '$filter_array[lease]'";
+			if ($filter_array['max_dist'] != "None")
+				$query .= "and distance <= '$filter_array[max_dist]'";
 		}
 	}
-	else if (strpos($filter, "_dist")) {
+	else if (strpos($filter, "_dist")) {//distance filter
 		$string_length = strlen($filter);//GET THE NUMBER WITH REGEX
 		if ($string_length > 10) { $filter_var = substr($filter, -2, 2); } 
 		else { $filter_var = substr($filter, -1, 1); }
@@ -117,6 +130,20 @@ if(isset($filter)) {
 		if ($filter_array['utils'] != "None")
 			$query .= "and utils_included = '$filter_array[utils]'";
 	}
+	else if (strpos($filter, "_sort")) {//price and distance sort
+		if (strpos($filter, "ice_sort")) { $filter_var = "cost"; } 
+		else { $filter_var = "distance"; }
+		$filter_array['sort'] = $filter_var;
+		if ($filter_array['lease'] != "None")
+			$query .= "and lease_required = '$filter_array[lease]'";
+		if ($filter_array['furnished'] != "None")
+			$query .= "and furnished = '$filter_array[furnished]'";
+		if ($filter_array['utils'] != "None")
+			$query .= "and utils_included = '$filter_array[utils]'";
+		if ($filter_array['max_dist'] != "None")
+			$query .= "and distance <= '$filter_array[max_dist]'";
+	}
+	$query .= "ORDER BY ". $filter_array['sort'];
 	$_SESSION['filters'] = $filter_array;
 }
 //if no filter was set
@@ -130,11 +157,12 @@ else {
 	if($filter_array['furnished'] != "None") {
 		$query .= "and furnished = '$filter_array[furnished]'";
 	}
-	if($filter_array['furnished'] != "None") {
+	if($filter_array['max_dist'] != "None") {
 		$query .= "and distance <= '$filter_array[max_dist]'";
 	}
+	$query .= "ORDER BY ". $filter_array['sort'];
+	$_SESSION['filters'] = $filter_array;
 }
-$query .= "ORDER BY $sort";
 $numresults=mysql_query($query);
 $totalrows=mysql_num_rows($numresults);
 //if no results returned for query
@@ -161,6 +189,6 @@ else {
 		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\"},";
 		$count++;
 	}
-	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\", \"debug\": \"".$filter_var."\"}";
+	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\", \"debug\": \"".$numrows."\"}";
 }
 ?>

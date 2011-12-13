@@ -15,7 +15,7 @@ function contact () {
             document.getElementById("search_results").innerHTML=xmlhttp.responseText;
         }
     }
-    var link = "contact.php";
+    var link = "send_form.php";
     xmlhttp.open("GET",link,true);
     xmlhttp.send();    
 }
@@ -37,7 +37,7 @@ function feedback () {
             document.getElementById("search_results").innerHTML=xmlhttp.responseText;
         }
     }
-    var link = "feedback.php";
+    var link = "send_form.php";
     xmlhttp.open("GET",link,true);
     xmlhttp.send();
 }

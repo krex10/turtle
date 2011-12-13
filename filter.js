@@ -1,5 +1,5 @@
 var filter; var i; var counter = 0; var result; var get_link; var numrows; var padding; var padding_left;
-function filter_color (utils, lease, furnished) {
+function filter_color (utils, lease, furnished, sort) {
 	if (utils === "Yes") {
 		document.getElementById("utils_yes").style.color = "black";
 	}
@@ -17,5 +17,11 @@ function filter_color (utils, lease, furnished) {
 	}
 	if (furnished === "No") {
 		document.getElementById("furnished_no").style.color = "black";
+	}
+	if (sort === "cost") {
+		document.getElementById("sort_price").style.color = "black";
+	}
+	if (sort === "distance") {
+		document.getElementById("sort_distance").style.color = "black";
 	}
 }

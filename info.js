@@ -1,15 +1,97 @@
 function more_info () {
 	$(document).ready(function(){
 		$('#next').on("click",function() {
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s='+news+'&filter='+filter;
+			get_link = 'new_sort.php?q='+query+'&s='+news;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
-				numrows = result.numrows;
-				prevs = news - 5; 
+				numrows = result.numrows; 
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						news++;				
+					}a = news; b = a - numrows + 1; prevs = b -5; totalrows = result.totalrows;
+					if (numrows < 5) {
+						for (i= 4; i >= numrows ; i--) {
+							document.getElementById("cost"+i).style.visibility = "hidden";
+							document.getElementById("dist"+i).style.visibility = "hidden";
+							news++;
+						}
+						a = totalrows; b = totalrows - numrows;
+						document.getElementById("next_show").style.visibility = "hidden";
+					}
+					if (news >= 5) {
+						document.getElementById("prev_show").style.visibility = "visible"; counter++;
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
+				}
+				else {
+					for (i= 0; i < 5; i++) {
+						document.getElementById("cost"+i).innerHTML = "";
+						document.getElementById("dist"+i).innerHTML = "";
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
+				}
+			});
+		});
+		$('#prev').on("click",function() {
+			get_link = 'new_sort.php?q='+query+'&s='+prevs;
+			$.get(get_link, function(data) {
+				result = $.parseJSON(data);
+				numrows = result.numrows; 
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						news--;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+					}
+					prevs = news - 10; a = news; b = a - numrows + 1; totalrows = result.totalrows;
+					if (news <= 5) {
+						document.getElementById("prev_show").style.visibility = "hidden";
+					}
+					counter--;
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
+					document.getElementById("next_show").style.visibility = "visible";
+				}
+				else {
+					for (i= 0; i < 5; i++) {
+						document.getElementById("cost"+i).innerHTML = "";
+						document.getElementById("dist"+i).innerHTML = "";
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
+				}
+			});
+		});
+		$('#sort_price').on("click",function() {
+			if (document.getElementById("sort_price").style.color == "black") {
+				document.getElementById("sort_price").style.color = "white";
+				filter = "sort_reset";
+			}
+			else {
+				document.getElementById("sort_price").style.color = "black";
+				document.getElementById("sort_distance").style.color = "white";
+				filter = "price_sort";
+			}
+			$.get('new_sort.php?q='+query+'&s=&filter='+filter, function(data) {
+				news = 0; prevs = 0;
+				result = $.parseJSON(data);
+				numrows = result.numrows; totalrows = result.totalrows;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 						padding = result.result[i].distance * 15;
 						padding_left = padding+"px";
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
@@ -20,89 +102,66 @@ function more_info () {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
 						}
+						document.getElementById("next_show").style.visibility = "hidden";
 					}
-					if (news >= 5 && counter == 0) {
-						document.getElementById("prev_show").style.visibility = "visible";
-					}
-					counter++;
-					a = news; b = news - 4; totalrows = result.totalrows;
 					document.getElementById("showing_results").innerHTML = 
-					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
+					"<p class='showing'>Showing results 1 to 5 of "+totalrows+"</p>";
+					document.getElementById("prev_show").style.visibility = "hidden";
 				}
-				else{
+				else {
+					for (i= 0; i < 5; i++) {
+						document.getElementById("cost"+i).innerHTML = "";
+						document.getElementById("dist"+i).innerHTML = "";
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>No results were found</p>";
+				}
+			});
+		});
+		$('#sort_distance').on("click",function() {
+			if (document.getElementById("sort_distance").style.color == "black") {
+				document.getElementById("sort_distance").style.color = "white";
+				filter = "sort_reset";
+			}
+			else {
+				document.getElementById("sort_distance").style.color = "black";
+				document.getElementById("sort_price").style.color = "white";
+				filter = "distance_sort";
+			}
+			$.get('new_sort.php?q='+query+'&s=&filter='+filter, function(data) {
+				news = 0; prevs = 0;
+				result = $.parseJSON(data);
+				numrows = result.numrows;
+				if (result.error_msg != 'null_query') {
+					for (i=0; i < numrows; i++) {
+						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
+						padding = result.result[i].distance * 15;
+						padding_left = padding+"px";
+						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						news++;				
+					}a = news; b = a - numrows + 1; totalrows = result.totalrows;
+					if (numrows < 5) {
+						for (i= 4; i >= numrows ; i--) {
+							document.getElementById("cost"+i).style.visibility = "hidden";
+							document.getElementById("dist"+i).style.visibility = "hidden";
+							news++;
+						}
+						a = totalrows; b = totalrows - numrows;
+						document.getElementById("next_show").style.visibility = "hidden";
+					}
+					document.getElementById("showing_results").innerHTML = 
+					"<p class='showing'>Showing results 1 to 5 of "+totalrows+"</p>";
+					document.getElementById("prev_show").style.visibility = "hidden";
+				}
+				else {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
 					}
-				}
-			});
-		});
-		$('#prev').on("click",function() {
-			console.log(prevs);
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s='+prevs+'&filter='+filter;
-			$.get(get_link, function(data) {
-				result = $.parseJSON(data);
-				numrows = result.numrows; 
-				if (result.error_msg != 'null_query') {
-					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-						padding = result.result[i].distance * 15;
-						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-					}
-					news = news - 5;
-					prevs = prevs - 5; a = news; b = prevs +1; totalrows = result.totalrows;
-					if (prevs <= 5 && counter == 1) {
-						document.getElementById("prev_show").style.visibility = "hidden";
-					}
-					counter--;
-					a = news; b = news - 4; totalrows = result.totalrows;
 					document.getElementById("showing_results").innerHTML = 
-					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
+					"<p class='showing'>No results were found</p>";
 				}
-				else 
-					console.log("SQL QUERY FAILED");
-			});
-		});
-		$('#sort_price').on("click",function() {
-			sort = "cost";
-			$.get('new_sort.php?q='+query+'&sort='+sort+'&s=&filter='+filter, function(data) {
-				news = 5;
-				result = $.parseJSON(data);
-				numrows = result.numrows;
-				if (result.error_msg != 'null_query') {
-					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-						padding = result.result[i].distance * 15;
-						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-					}
-					document.getElementById("sort_price").style.color = "black";
-				}
-				else 
-					console.log("SQL QUERY FAILED");
-			});
-		});
-		$('#sort_distance').on("click",function() {
-			sort = "distance";
-			$.get('new_sort.php?q='+query+'&sort='+sort+'&s=&filter='+filter, function(data) {
-				news = 5;
-				result = $.parseJSON(data);
-				numrows = result.numrows;
-				if (result.error_msg != 'null_query') {
-					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
-						var padding = result.result[i].distance * 15;
-						var padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-					}
-					document.getElementById("sort_distance").style.color = "black";
-				}
-				else 
-					console.log("SQL QUERY FAILED");
 			});
 		});
 		$('#utils_yes').on("click",function() {
@@ -115,7 +174,7 @@ function more_info () {
 				document.getElementById("utils_yes").style.color = "black";
 				document.getElementById("utils_no").style.color = "white";
 			}
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=&filter='+filter;
+			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -124,7 +183,7 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 						padding = result.result[i].distance * 15;
 						padding_left = padding+"px";
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
@@ -158,7 +217,7 @@ function more_info () {
 				document.getElementById("utils_no").style.color = "black";
 				document.getElementById("utils_yes").style.color = "white";
 			}
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			get_link = 'new_sort.php?q='+query+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
@@ -167,7 +226,7 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 						padding = result.result[i].distance * 15;
 						padding_left = padding+"px";
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
@@ -201,7 +260,7 @@ function more_info () {
 				document.getElementById("lease_yes").style.color = "black";
 				document.getElementById("lease_no").style.color = "white";
 			}
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			get_link = 'new_sort.php?q='+query+'&s=0&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -210,7 +269,7 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 						padding = result.result[i].distance * 15;
 						padding_left = padding+"px";
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
@@ -244,7 +303,7 @@ function more_info () {
 				document.getElementById("lease_no").style.color = "black";
 				document.getElementById("lease_yes").style.color = "white";
 			}
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -253,7 +312,7 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 						padding = result.result[i].distance * 15;
 						padding_left = padding+"px";
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
@@ -287,7 +346,7 @@ function more_info () {
 				document.getElementById("furnished_yes").style.color = "black";
 				document.getElementById("furnished_no").style.color = "white";
 			}
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -296,7 +355,7 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 						padding = result.result[i].distance * 15;
 						padding_left = padding+"px";
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
@@ -330,7 +389,7 @@ function more_info () {
 				document.getElementById("furnished_no").style.color = "black";
 				document.getElementById("furnished_yes").style.color = "white";
 			}
-			get_link = 'new_sort.php?q='+query+'&sort='+sort+'&s=0&filter='+filter;
+			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -339,7 +398,7 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance;
+						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 						padding = result.result[i].distance * 15;
 						padding_left = padding+"px";
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
@@ -363,5 +422,46 @@ function more_info () {
 				}
 			});
 		});
+	});
+}
+
+function new_submit () {
+	query = $('[name=q]').val();
+	console.log(query);
+	get_link = 'new_sort.php?q='+query+'&s=';
+	$.get(get_link, function(data) {
+		result = $.parseJSON(data);
+		numrows = result.numrows;
+		news = 0;
+		prevs = 0; totalrows = result.totalrows;
+		if (result.error_msg != 'null_query') {
+			for (i=0; i < numrows; i++) {
+				document.getElementById("cost"+i).style.visibility = "visible";
+				document.getElementById("dist"+i).style.visibility = "visible";
+				document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+				document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
+				padding = result.result[i].distance * 15;
+				padding_left = padding+"px";
+				document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				news++;
+			}
+			if (numrows < 5) {
+				for (i= 4; i >= numrows ; i--) {
+					document.getElementById("cost"+i).style.visibility = "hidden";
+					document.getElementById("dist"+i).style.visibility = "hidden";
+				}
+				news++;
+			}
+			document.getElementById("showing_results").innerHTML = 
+			"<p class='showing'>Showing results 1 to 5 of "+totalrows+"</p>";
+		}
+		else {
+			for (i= 0; i < 5; i++) {
+				document.getElementById("cost"+i).style.visibility = "hidden";
+				document.getElementById("dist"+i).style.visibility = "hidden";
+			}
+			document.getElementById("showing_results").innerHTML = 
+			"<p class='showing'>No results were found</p>";
+		}
 	});
 }

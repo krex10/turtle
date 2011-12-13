@@ -4,6 +4,7 @@
 		<title>Turtle&#39;s Den</title>
 		<script language="JavaScript" src="jquery.js"></script>
 		<script language="JavaScript" src="jquery.qtip.min.js"></script>
+		<script language="JavaScript" src="qtip/qtip.js"></script>
 		<script language="JavaScript" src="filter.js"></script>
 		<script language="JavaScript" src="info.js"></script>
 		<script language="JavaScript" src="contact.js"></script>
@@ -31,10 +32,6 @@
 				include "config.php";
 				$var = @$_GET['q'] ;
 				$s = @$_GET['s'];
-				$sort = @$_GET['sort'];
-				//sort
-				if (!$sort)
-					{$sort = "rating";}
 				$trimmed = trim($var); //trim whitespace from the stored variable
 				$supertrimmed = mysql_escape_string($trimmed);
 				// rows to return
@@ -68,8 +65,9 @@
 						$query .= "and distance <= '$filters[max_dist]'";
 						echo "<script>var max_dist = $filters[max_dist];</script>";
 					}
+					$query .= "ORDER BY '$filters[sort]'";
 				}
-				$query .= "ORDER BY $sort";
+				else { $query .= "ORDER BY rating"; }
 				$numresults=mysql_query($query);
 				$numrows=mysql_num_rows($numresults);
 				if ($numrows == 0)
@@ -100,9 +98,9 @@
 	      					echo "<div id='showing_results'><p class='showing'>Showing results $b to $a of $numrows</p></div><script>var b = $b; var a = $a; var totalrows = $numrows;</script>"; ?>
 							</td>
 							<td>
-								<form style="margin-right:190px; vertical-align:middle; margin-top:8px; margin-bottom:0px;"  class="search_form" name="search_form" id="re_search">
+								<form style="margin-right:190px; vertical-align:middle; margin-top:8px; margin-bottom:0px;"  class="search_form" name="search_form" id="re_search" onsubmit="event.preventDefault(); new_submit();">
 			                    <label for="q"></label>
-			                    <input onFocus="this.value = (this.value=='<? echo $var; ?>')? '' : this.value;" value="<? echo $var; ?>" type="text" name="q"  class="search2"/>
+			                    <input onFocus="this.value = (this.value==$('[name=q]').val())? '' : this.value;" value="<? echo $var; ?>" type="text" name="q"  class="search2" onkeypress=""/>
 			                	</form>
 							</td>
 						</tr>
@@ -135,13 +133,13 @@
 						$padding = $row['distance'] * 15;
 						$padding_left = "' color:white; font-weight:bold; font-size:10px; padding-left: $padding px; text-align:left;'";
 							?> 
-						<tr id="tr_results">
+						<tr id="tr_results" <?  if ($test_count%2) { echo "style='background:#C3FDB8;'"; } else { echo "style='background:#CCFFCC;'";}  ?>>
 							<td  width="60" style="font-weight:bold; font-size:16px;" >
 								<div <? echo "id=\"cost".$test_count."\""; ?>><p><?php echo "\${$row['cost']}";  ?></p>
 								</div>
 							</td>
 							<td  width="60" style=<?php echo $padding_left; echo "id=\"pad_dist".$test_count."\""; ?> >
-								<div> <p style="background: url(house.png) no-repeat; padding: 20px 5px 12px 14px; width:25px;" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']}";  ?></p></div>
+								<div> <p style="border-radius:20px; border:0; background:green; padding:10px; width:35px;" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']} km";  ?></p></div>
 							</td>
 						</tr>
 						<?php
@@ -167,11 +165,13 @@
 					// not last page so give NEXT link
 					$news=$s+$limit;
 					echo "<script>var news = '".$news."'; var prevs = 0; var query = '".$supertrimmed."'; var sort = '".$sort."'; </script>"; ?>
-					<div id="prev_show"><button class="page_buttons" id="prev" style="">Prev Page</button> </div>
-					<div id="next_show"><button class="page_buttons" id="next" style="margin-top:-28px; margin-left:100px;">Next Page</button></div> <?
+					<div>
+						<div id="prev_show"><button class="page_buttons" id="prev" style="">Prev Page</button> </div>
+						<div id="next_show"><button class="page_buttons" id="next" style="margin-top:-28.5px; margin-left:100px;">Next Page</button></div>
+					</div> <?
 				}
 	}
-				?>
+				if ($numrows != 0) {  ?>
 					<div id="filters">
 						<button class="filter_buttons">Utilities:
 							<a href="#" id="utils_yes">[Yes]</a> /
@@ -185,17 +185,17 @@
 							<a href="#" id="furnished_yes">[Yes]</a> /
 							<a href="#" id="furnished_no">[No]</a>
 						</button><br/>
-					</div>
+					</div> <? } ?>
 				</div><!--end search_result -->
 			</div><!--end green_page -->
 			<div id="footer" style="">
-				<p class="footer_copyright" onclick="/">&copy; 2011 Turtle's Den | <a class="footer_links" href="#">Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
+				<p class="footer_copyright" onclick="/">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="#">Feedback</a> | <a class="footer_links" href="#" onclick="#">Contact us</a></p>
 			</div>
 	    </div><!--end wrapper -->
 	</body>
 	<?
 	if(isset($filters))
-		echo "<script>$(document).ready(filter_color('$filters[utils]','$filters[lease]','$filters[furnished]'));</script>";
+		echo "<script>$(document).ready(filter_color('$filters[utils]','$filters[lease]','$filters[furnished]','$filters[sort]'));</script>";
 	?>
 </html>
 <script>
