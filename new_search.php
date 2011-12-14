@@ -138,7 +138,7 @@ session_start(); ?>
 						$padding = $row['distance'] * 15;
 						$padding_left = "' color:white; font-weight:bold; font-size:10px; padding-left: $padding px; text-align:left;'";
 							?> 
-						<tr id="tr_results" <?  if ($test_count%2) { echo "style='background:#C3FDB8;'"; } else { echo "style='background:#CCFFCC;'";}  ?>>
+						<tr id="tr_results" <?  if ($test_count%2) { echo "style='background:#EEF3E2;'"; } else { echo "style='background:#E0E0E0;'";}  ?>>
 							<td  width="60" style="font-weight:bold; font-size:16px;" >
 								<div <? echo "id=\"cost".$test_count."\""; ?>><p><?php echo "\${$row['cost']}";  ?></p>
 								</div>
