@@ -94,84 +94,74 @@ session_start(); ?>
 				$result = mysql_query($query) or die("Couldn't execute query");
 
 				// display what the person searched for
-				?> <table>
-						<tr  align='left'>
-							<td width='800' align='left'>
-	    						<strong> <?php $a = $s + ($limit) ;
-	      					if ($a > $numrows) { $a = $numrows ; }
-	      					$b = $s + 1 ;
-	      					echo "<div id='showing_results'><p class='showing'>Showing results $b to $a of $numrows</p></div><script>var b = $b; var a = $a; var totalrows = $numrows;</script>"; ?>
-							</td>
-							<td>
-								<form style="margin-right:190px; vertical-align:middle; margin-top:8px; margin-bottom:0px;"  class="search_form" name="search_form" id="re_search" onsubmit="event.preventDefault(); new_submit();">
-			                    <label for="q"></label>
-			                    <input onFocus="this.value = (this.value==$('[name=q]').val())? '' : this.value;" value="<? echo $var; ?>" type="text" name="q"  class="search2" onkeypress=""/>
-			                	</form>
-							</td>
-						</tr>
-					</table>
-
-					<table id="results" cellspacing="7" border="1" bordercolor="green" rules="cols" frame="void" class="sortable">
-	    				<tr style="font-weight:bold;">
-	        				<td>
-								<button class="sort_buttons" id="sort_price" style="" >Price</button>
-							</td>
-	        				<td style="padding-left:0px;" style="vertical-align:top; text-align:top;">
-								<div class="demo" style="margin-top:-45px; margin-bottom:0;">
-
-								<p>
-									<label style="border-radius:5px; border:0; width:auto; margin-left:-300px;" class="sort_buttons" id="sort_distance" for="distance">Distance:</label>
-									<input type="text" id="distance" style="border:0; color:black; text-align:center; font-weight:bold; font-size:14px; width:55px; background:transparent;" readonly="readonly"/>
-								</p>
-
-								<div id="slider-range-min" style="width:470px;"></div>
-
-								</div><!-- End demo -->
-							</td>
-						</tr>
+				?> <div ="results_top">
+						<div>
+						<?php 
+							$a = $s + ($limit) ;
+     						if ($a > $numrows) { $a = $numrows ; }
+     						$b = $s + 1 ;
+     						echo "<div id='showing_results'><p class='showing'>Showing results $b to $a of $numrows </p> </div> <script> var b = $b; var a = $a; var totalrows = $numrows;</script>"; ?>
+						</div>
+						<div  id="re_search">
+							<form style="" name="search_form" onsubmit="event.preventDefault(); new_submit();">
+								<label for="q"></label>
+								<input onFocus="this.value = (this.value==$('[name=q]').val())? '' : this.value;" value="<? echo $var; ?>" type="text" name="q"  class="small_search" onkeypress=""/>
+							</form>
+						</div>
+					</div><!--End results top -->
+					<div class="demo" style="">
+						<p>
+							<label class="sort_buttons" id="sort_distance" for="distance">Distance:</label>
+							<input type="text" id="distance" readonly="readonly"/>
+							<div id="slider-range-min"></div>
+						</p>
+					</div><!-- End demo -->
+					<div class="sort_buttons" id="sort_price">
+						<p>Price</p>
+					</div>
+					<div id="results" cellspacing="7" border="1" bordercolor="green" rules="cols" frame="void" class="sortable">
 						<?php
-					$count = 1 + $s ;
-					$test_count = 0;
-					echo "<script> var x = []; var list_info = [x,x,x,x,x]; </script>";
-					// now you can display the results returned
-					while ($row= mysql_fetch_array($result)) {
-						$padding = $row['distance'] * 15;
-						$padding_left = "' color:white; font-weight:bold; font-size:10px; padding-left: $padding px; text-align:left;'";
-							?> 
-						<tr id="tr_results" <?  if ($test_count%2) { echo "style='background:#EEF3E2;'"; } else { echo "style='background:#E0E0E0;'";}  ?>>
-							<td  width="60" style="font-weight:bold; font-size:16px;" >
-								<div <? echo "id=\"cost".$test_count."\""; ?>><p><?php echo "\${$row['cost']}";  ?></p>
-								</div>
-							</td>
-							<td  width="60" style=<?php echo $padding_left; echo "id=\"pad_dist".$test_count."\""; ?> >
-								<div> <p style="border-radius:20px; border:0; background:green; padding:10px; width:35px; cursor:hand;" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']} km";  ?></p></div>
-								<div <? echo "id=\"dialog".$test_count."\""; ?>>
-								</div>
-							</td>
-						</tr>
+							$count = 1 + $s ;
+							$test_count = 0;
+							echo "<script> var x = []; var list_info = [x,x,x,x,x]; </script>";
+							// now you can display the results returned
+							while ($row= mysql_fetch_array($result)) {
+								$padding = $row['distance'] * 15 + 130;
+						?> 
+								<div id="row_results">
+									<div>
+										<div <? echo "id=\"cost".$test_count."\""; ?>>
+											<p><?php echo "\${$row['cost']}";  ?></p>
+										</div>
+										<div  <? echo "id=\"pad_dist".$test_count."\""; ?> >
+											<p class="listing" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']} km";  ?></p>
+										</div>
+										<div <? echo "id=\"dialog".$test_count."\""; ?>></div>
+									</div>
+								</div><!--End row results -->
 						<?php
+						echo "<script>document.getElementById(\"pad_dist".$test_count."\").style.marginLeft=
+						\"$padding px\"</script>";
 						$count++;
 						$test_count++;
 					}
 					?>
-				</table><!--End results table -->
-				<?php 
-				$currPage = (($s/$limit) + 1);
-				//break before paging
-				echo "<br />";
-				// next we need to do the links to other results
-				// calculate number of pages needing links
-				$pages=intval($numrows/$limit);
-				// $pages now contains int of pages needed unless there is a remainder from division
-				if ($numrows%$limit) {
-					// has remainder so add one page
-					$pages++;
-				}
-				// check to see if last page
-				if (!((($s+$limit)/$limit)==$pages) && $pages!=1) {
-					// not last page so give NEXT link
-					$news=$s+$limit;
-					echo "<script>var news = '".$news."'; var prevs = 0; var sort = '".$sort."'; </script>"; ?>
+					</div><!--End results table -->
+					<?php 
+						$currPage = (($s/$limit) + 1);
+						// next we need to do the links to other results
+						// calculate number of pages needing links
+						$pages=intval($numrows/$limit);
+						// $pages now contains int of pages needed unless there is a remainder from division
+						if ($numrows%$limit) {
+							// has remainder so add one page
+							$pages++;
+						}
+						// check to see if last page
+						if (!((($s+$limit)/$limit)==$pages) && $pages!=1) {
+							// not last page so give NEXT link
+							$news=$s+$limit;
+							echo "<script>var news = '".$news."'; var prevs = 0; var sort = '".$sort."'; </script>"; ?>
 					<div>
 						<div id="prev_show"><button class="page_buttons" id="prev" style="">Prev Page</button> </div>
 						<div id="next_show"><button class="page_buttons" id="next" style="margin-top:-28.5px; margin-left:100px;">Next Page</button></div>
@@ -180,18 +170,18 @@ session_start(); ?>
 	}
 				if ($numrows != 0) {  ?>
 					<div id="filters">
-						<button class="filter_buttons">Utilities:
+						<div class="filter_buttons">Utilities:
 							<a href="#" id="utils_yes">[Yes]</a> /
 							<a href="#" id="utils_no">[No]</a>
-						</button><br/>
-						<button class="filter_buttons" >Lease:
+						</div ><br/>
+						<div  class="filter_buttons" >Lease:
 							<a href="#" id="lease_yes">[Yes]</a> /
 							<a href="#" id="lease_no">[No]</a>
-						</button><br/>
-						<button class="filter_buttons" >Furnished:
+						</div ><br/>
+						<div  class="filter_buttons" >Furnished:
 							<a href="#" id="furnished_yes">[Yes]</a> /
 							<a href="#" id="furnished_no">[No]</a>
-						</button><br/>
+						</div ><br/>
 					</div> <? } ?>
 				</div><!--end search_result -->
 			</div><!--end green_page -->

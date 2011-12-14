@@ -3,6 +3,7 @@ body {
     margin:0;
     padding:0;
     height:100%;
+    font-family:Verdana;
 }
 
 #wrapper {
@@ -13,18 +14,16 @@ body {
 #content {
     background:#EEF3E2;
     border-radius:20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
     width:50%;
     min-width:625px;
     max-width:650px;
     margin:2% 0 0 20%;
 }
 
-#form {
-    margin:-170px 0 0 250px;
-}
-
-#zippy { 
-    
+#zippy img, #title {
+    border:0 none;
 }
 
 #green_page {
@@ -35,25 +34,22 @@ body {
     padding:0;
     width:760px;
     border-radius:20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
     height:430px;
-}
-
-.search_form {
-    float:left;
 }
 
 .search {
     margin-top:10px;
 }
 
-.search2 {
-    margin-top:2px;
-    margin-left:-50px;
+.search:hover {
+    cursor:hand;
 }
 
-
-#search_results {
-    font-family:Verdana;
+#re_search {
+    float:right;
+    margin:-30px 30px 0 0;
 }
 
 button {
@@ -66,6 +62,8 @@ button {
     border:outset 3px;
     color:#33A10B;
     border-radius:10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
     width:auto;
 }
 
@@ -87,6 +85,21 @@ input.search {
     font-weight:bold;
     padding-left:30px;
     border-radius:10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+.small_search {
+    width:200px;
+    height:20px;
+    font-size:12px;
+    font-family:Verdana;
+    color:#33A10B;
+    font-weight:bold;
+    padding-left:5px;
+    border-radius:10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 
 textarea.contact_form {
@@ -98,36 +111,14 @@ textarea.contact_form {
     font-weight:bold;
     padding:10px;
     border-radius:10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
     margin-top:20px;
-}
-
-input.search2 {
-    margin-top:-15px;
-    margin-bottom:0px;
-    width:200px;
-    height:20px;
-    font-size:12px;
-    font-family:Verdana;
-    color:#33A10B;
-    font-weight:bold;
-    padding-left:5px;
-    border-radius:10px;
-}
-
-table.results tr, td, th, tbody {
-    padding:10px 0px 15px 3px;
-    text-align:center;
-    font-size:12px;
 }
 
 #results {
     margin-top:-10px;
 }
-
-.alignTop{vertical-align: top;}
-.alignBottom{vertical-align: bottom;}
-.alignTopLeft{text-align: left; vertical-align: top;}
-.alignBottomLeft{text-align: left; vertical-align: bottom;}
 
 .nav-link {
     font-size:16px;
@@ -140,9 +131,7 @@ table.results tr, td, th, tbody {
     font-size:16px;
     color:black;
     font-weight:bold;
-    margin-left:-20px;
-    margin-top:-15px;
-    margin-bottom:5px;
+    margin:10px;
 }
 
 .sort_buttons {
@@ -157,13 +146,18 @@ table.results tr, td, th, tbody {
 }
 
 .filter_buttons {
+    text-align:justify;
+    padding:0 0 0 10px;
     font-size:12px;
     color: white;
     background:red;
-    min-width:180px;
+    min-width:150px;
+    border-radius:10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 .filter_buttons:hover {
-    background:#33A10B;
+    background-color:#33A10B;
 }
 
 .filter_buttons p, .filter_buttons a {
@@ -224,3 +218,75 @@ a.footer_links:hover {
 }
 
 #demo-frame > div.demo { padding: 10px !important; };
+
+#dist0, #dist1, #dist2, #dist3, #dist4 {
+    border:0; 
+    padding:10px; 
+    width:35px; 
+    cursor:hand;
+    margin:-30px 0 0 100px;
+    text-align:center;
+    background:green;
+}
+
+.listing {
+    background:green;
+}
+#cost0, #cost1, #cost2, #cost3, #cost4 {
+    margin:0 0 0 25px;
+}
+
+#pad_dist0, #pad_dist1, #pad_dist2, #pad_dist3, #pad_dist4 {
+    border:0; 
+    background:green; 
+    padding:2px; 
+    width:40px; 
+    height:25px;
+    cursor:hand;
+    color:white; 
+    font-weight:bold;
+    font-size:10px;
+    border-radius:10px; 
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px;
+    text-align:center;
+    vertical-align:middle;
+    margin:-40px 0 0 0;
+}
+
+#sort_price {
+    margin: 0 0 30px 18px;
+    width:60px;
+    text-align:center;
+    border-radius:10px; 
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px;
+}
+
+#sort_distance {
+    width:100px;
+    padding:3px;
+    text-align:center;
+    border-radius:10px; 
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px;
+}
+
+#distance {
+    border:0; 
+    color:black; 
+    text-align:center; 
+    font-weight:bold; 
+    font-size:14px; 
+    width:55px; 
+    background:transparent;
+}
+
+#slider-range-min {
+    margin: -27px 0 0 140px;
+    width:470px;
+}
+
+#row_results {
+    font-weight:bold; font-size:16px;
+}
