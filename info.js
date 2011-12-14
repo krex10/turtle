@@ -151,7 +151,7 @@ function more_info () {
 							document.getElementById("dist"+i).style.visibility = "hidden";
 							news++;
 						}
-						a = totalrows; b = totalrows - numrows;
+						a = totalrows; b = totalrows - numrows + 1;
 						document.getElementById("next_show").style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 

@@ -1,4 +1,5 @@
 var filter; var i; var counter = 0; var result; var get_link; var numrows; var padding; var padding_left; var foo; var dist;
+var max_dist;
 function filter_color (utils, lease, furnished, sort) {
 	if (utils === "Yes") {
 		document.getElementById("utils_yes").style.color = "black";

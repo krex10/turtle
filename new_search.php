@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php
+session_start(); ?>
 <html>
 	<head>
 		<title>Turtle&#39;s Den</title>
@@ -50,7 +51,10 @@
 					?> <p>We dont seem to have a search parameter!</p> <?php
 					exit;
 				}
-				$query = "Select * from temp where address like \"%$supertrimmed%\"";
+				if (!isset($_SESSION['no_refresh']))
+					$_SESSION['no_refresh'] = $supertrimmed;
+				echo "<script>var query = '".$_SESSION['no_refresh']."'</script>"; 
+				$query = "Select * from temp where address like \"%$_SESSION[no_refresh]%\"";
 				if (isset($_SESSION['filters'])) {
 					$filters = $_SESSION['filters'];
 					if($filters['utils'] != "None") {
@@ -62,13 +66,13 @@
 					if($filters['furnished'] != "None") {
 						$query .= "and furnished = '$filters[furnished]'";
 					}
-					if($filters['max_dist'] != "None") {
-						$query .= "and distance <= '$filters[max_dist]'";
-						echo "<script>var max_dist = $filters[max_dist];</script>";
-					}
-					$query .= "ORDER BY '$filters[sort]'";
+					$query .= "and distance <= '$filters[max_dist]'";
+					$query .= "ORDER BY $filters[sort]";
+					echo "<script>max_dist = $filters[max_dist];</script>";
 				}
 				else { $query .= "ORDER BY rating"; }
+				echo "<script>$(document).ready(function () { $('[name=q]').val('$_SESSION[no_refresh]'); });</script>"; 
+				echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 				$numresults=mysql_query($query);
 				$numrows=mysql_num_rows($numresults);
 				if ($numrows == 0)
@@ -167,7 +171,7 @@
 				if (!((($s+$limit)/$limit)==$pages) && $pages!=1) {
 					// not last page so give NEXT link
 					$news=$s+$limit;
-					echo "<script>var news = '".$news."'; var prevs = 0; var query = '".$supertrimmed."'; var sort = '".$sort."'; </script>"; ?>
+					echo "<script>var news = '".$news."'; var prevs = 0; var sort = '".$sort."'; </script>"; ?>
 					<div>
 						<div id="prev_show"><button class="page_buttons" id="prev" style="">Prev Page</button> </div>
 						<div id="next_show"><button class="page_buttons" id="next" style="margin-top:-28.5px; margin-left:100px;">Next Page</button></div>

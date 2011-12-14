@@ -12,6 +12,7 @@ $s = @$_GET['s'];
 $filter = @$_GET['filter'];
 $trimmed = trim($var); //trim whitespace from the stored variable
 $supertrimmed = mysql_escape_string($trimmed);
+$_SESSION['no_refresh'] = $supertrimmed;
 // rows to return
 $limit=5; 
 // check for an empty string and display a message.
@@ -29,11 +30,11 @@ if (!isset($var))
 //first part of query = constant
 $query = "Select * from temp where address like \"%$supertrimmed%\"";
 //session exists, so initialize working array with Session array
+//session does not exist, initialize empty working array
 if (isset($_SESSION['filters']))
 	$filter_array = $_SESSION['filters'];
-//session does not exist, initialize empty working array
 else 
-	$filter_array = array('utils'=>'None','lease'=>'None','furnished'=>'None', 'max_dist'=>'None', 'sort'=>'rating');
+	$filter_array = array('utils'=>'None','lease'=>'None','furnished'=>'None', 'max_dist'=>'30', 'sort'=>'rating');
 //BUILD FILTERS
 if(isset($filter)) {
 	//If filter is set to update options: None, Yes, No -> Yes/No
