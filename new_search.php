@@ -3,18 +3,19 @@
 	<head>
 		<title>Turtle&#39;s Den</title>
 		<script language="JavaScript" src="jquery.js"></script>
-		<script language="JavaScript" src="jquery.qtip.min.js"></script>
-		<script language="JavaScript" src="qtip/qtip.js"></script>
 		<script language="JavaScript" src="filter.js"></script>
 		<script language="JavaScript" src="info.js"></script>
 		<script language="JavaScript" src="contact.js"></script>
 		<link rel="stylesheet" href="jquery-ui-1.8.16.custom/development-bundle/themes/base/jquery.ui.all.css">
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.core.js"></script>
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.position.js"></script>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.widget.js"></script>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.mouse.js"></script>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.slider.js"></script>
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.dialog.js"></script>
 		<link rel="stylesheet" href="jquery-ui-1.8.16.custom/development-bundle/demos/demos.css">
 		<script src="tools/slider.js"></script>
+		<script src="tools/specific.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
@@ -139,7 +140,9 @@
 								</div>
 							</td>
 							<td  width="60" style=<?php echo $padding_left; echo "id=\"pad_dist".$test_count."\""; ?> >
-								<div> <p style="border-radius:20px; border:0; background:green; padding:10px; width:35px;" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']} km";  ?></p></div>
+								<div> <p style="border-radius:20px; border:0; background:green; padding:10px; width:35px; cursor:hand;" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']} km";  ?></p></div>
+								<div <? echo "id=\"dialog".$test_count."\""; ?>>
+								</div>
 							</td>
 						</tr>
 						<?php
@@ -199,5 +202,5 @@
 	?>
 </html>
 <script>
-$(document).ready(more_info());
+$(document).ready(function () { more_info(); specific_info ();});
 </script>

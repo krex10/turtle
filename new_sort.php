@@ -185,8 +185,8 @@ else {
 	echo "{\"result\":[";
 	while ($row= mysql_fetch_array($result)) { 
 		if ($count >= $numrows || $count >= $limit)
-			{ echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\"}"; break; }
-		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\"},";
+			{ echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\"}"; break; }
+		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\"},";
 		$count++;
 	}
 	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\", \"debug\": \"".$numrows."\"}";

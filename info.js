@@ -6,6 +6,7 @@ function more_info () {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
 				if (result.error_msg != 'null_query') {
+					specific_info(news);
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -45,6 +46,7 @@ function more_info () {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
 				if (result.error_msg != 'null_query') {
+					specific_info(prevs);
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -89,6 +91,7 @@ function more_info () {
 				result = $.parseJSON(data);
 				numrows = result.numrows; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
+					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -133,6 +136,7 @@ function more_info () {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
 				if (result.error_msg != 'null_query') {
+					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -181,6 +185,7 @@ function more_info () {
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
+					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -224,6 +229,7 @@ function more_info () {
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
+					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -267,6 +273,7 @@ function more_info () {
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
+					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -310,6 +317,7 @@ function more_info () {
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
+					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -353,6 +361,7 @@ function more_info () {
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
+					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -396,6 +405,7 @@ function more_info () {
 				news = 5;
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
+					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
@@ -435,6 +445,7 @@ function new_submit () {
 		news = 0;
 		prevs = 0; totalrows = result.totalrows;
 		if (result.error_msg != 'null_query') {
+			specific_info();
 			for (i=0; i < numrows; i++) {
 				document.getElementById("cost"+i).style.visibility = "visible";
 				document.getElementById("dist"+i).style.visibility = "visible";
