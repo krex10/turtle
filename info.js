@@ -13,21 +13,22 @@ function more_info () {
 						padding = result.result[i].distance * 15;
 						padding_left = padding+"px";
 						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-						news++;				
-					}a = news; b = a - numrows + 1; prevs = b -5; totalrows = result.totalrows;
-					if (numrows < 5) {
+						news++;
+					}
+					totalrows = result.totalrows; a = news; b = a - numrows + 1; prevs = news - 10;
+					if (numrows < 5 || a == totalrows) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
 							news++;
 						}
-						a = totalrows; b = totalrows - numrows;
+						news = b - 1; prevs = news - 5;
 						document.getElementById("next_show").style.visibility = "hidden";
 					}
 					if (news >= 5) {
 						document.getElementById("prev_show").style.visibility = "visible"; counter++;
 					}
-					document.getElementById("showing_results").innerHTML = 
+					document.getElementById("showing_results").innerHTML =
 					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
 				else {
@@ -57,12 +58,16 @@ function more_info () {
 						document.getElementById("cost"+i).style.visibility = "visible";
 						document.getElementById("dist"+i).style.visibility = "visible";
 					}
-					prevs = news - 10; a = news; b = a - numrows + 1; totalrows = result.totalrows;
+					if (a%5) { news += 5; } a = news; b = a - numrows + 1;
+					prevs = news - 10; totalrows = result.totalrows;
 					if (news <= 5) {
 						document.getElementById("prev_show").style.visibility = "hidden";
 					}
 					counter--;
-					document.getElementById("showing_results").innerHTML = 
+					if (prevs < 0) {
+						prevs = 0; news = 5; b = 1; a = 5;
+					}
+					document.getElementById("showing_results").innerHTML =
 					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 					document.getElementById("next_show").style.visibility = "visible";
 				}
