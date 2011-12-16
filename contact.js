@@ -33,3 +33,22 @@ function feedback () {
 	}
 	document.getElementById("feedback").style.display = "inline";
 }
+/*
+$(document).ready(function() {
+	$('#feedback_submit').on("click", function() {
+		feedback = $('[name=f]').val();
+		get_link = "feedback.php?f="+feedback;
+		$.get(get_link, function(data) {
+			feedback_result = $.parseJSON(data);
+			if(feedback_result.debug == "worked")
+			{
+				document.getElementById("feedback").innerHTML =
+				"<p class='showing'>We have received your feedback, thank you for contacting us.<br/><a href='/turtle'>Back to home</a></p>";
+			}
+			else {
+				document.getElementById("feedback").innerHTML =
+				"<p class='showing'>We are encountering errors in receiving your feedback, please try again or contact the administrator.<br/><a href='/turtle'>Back to home</a></p>";
+			}
+		});
+	});
+});*/

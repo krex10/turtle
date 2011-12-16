@@ -6,7 +6,6 @@ $_SESSION['no_refresh'] = "";
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
-<script language="JavaScript" src="contact_index.js"></script>
 <title>Turtle&#39;s Den</title>
 <meta name="description" content="apartment search">
 <meta name="keywords" content="apartment search waterloo students housing rent lease sublet">

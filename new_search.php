@@ -136,7 +136,7 @@ session_start(); ?>
 							echo "<script> var x = []; var list_info = [x,x,x,x,x]; </script>";
 							// now you can display the results returned
 							while ($row= mysql_fetch_array($result) || $test_count < 5) {
-						?> 
+						?>
 								<div id="row_results">
 									<div>
 										<div <? echo "id=\"cost".$test_count."\""; ?>>
@@ -193,7 +193,7 @@ session_start(); ?>
 				</div ><br/>
 			</div>
 			<div id="footer" style="">
-				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="feedback();">Feedback</a> | <a class="footer_links" href="#" onclick="contact();">Contact us</a></p>
+				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#">Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
 			</div>
 	    </div><!--end wrapper -->
 	</body>
