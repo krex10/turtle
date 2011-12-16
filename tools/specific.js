@@ -13,7 +13,8 @@ function specific_info (next_page) {
 																"<br/>Distance: "+result.result[i].distance+" km"+
 																"<br/>Utilities included: "+result.result[i].utils+
 																"<br/>Furnished: "+result.result[i].furnished+
-																"<br/>Lease required: "+result.result[i].lease;
+																"<br/>Lease required: "+result.result[i].lease+
+																"<br/>Description: "+result.result[i].desc;
 			}
 			$("#dist0").on("click", function () {
 				$("#dialog0").dialog({ 

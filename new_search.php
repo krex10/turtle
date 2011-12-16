@@ -30,6 +30,13 @@ session_start(); ?>
     		</div>
 			<div id="green_page" style="">
 				<div id="search_results">
+					<div id="feedback">
+						<p class='showing'>Give us some feedback</p>
+						<form id="feedback_form" action="#">
+							<textarea id="feedback_text" rows="18" cols="75" name="f"></textarea>
+							<input type="submit" value="Send!" class="sort_buttons" id="feedback_submit" />
+						</form>
+					</div>
 				<?php
 				if (!isset($_SESSION)) { echo "Session not set, please verify cookie settings and reload the page"; exit;}
 				include "config.php";
@@ -186,7 +193,7 @@ session_start(); ?>
 				</div ><br/>
 			</div>
 			<div id="footer" style="">
-				<p class="footer_copyright" onclick="/">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="#">Feedback</a> | <a class="footer_links" href="#" onclick="#">Contact us</a></p>
+				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="feedback();">Feedback</a> | <a class="footer_links" href="#" onclick="contact();">Contact us</a></p>
 			</div>
 	    </div><!--end wrapper -->
 	</body>

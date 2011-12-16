@@ -317,3 +317,20 @@ a.footer_links:hover {
 #form {
     margin:-130px 0 0 260px;
 }
+
+#dialog0, #dialog1, #dialog2, #dialog3, #dialog4 {
+    font-size:12px;
+    color:#000000;
+    line-height:20px;
+}
+
+#feedback, #contact {
+    display:none;
+}
+
+#feedback_text, #feedback_submit {
+    margin:20px 0 0 30px;
+    border-radius:10px; 
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px;
+}
