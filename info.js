@@ -2,9 +2,15 @@ function more_info () {
 	$(document).ready(function(){
 		$('#next_show').on("click",function() {
 			get_link = 'new_sort.php?q='+query+'&s='+news;
+			var $this = $("#next_show");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+	        $this.spinner(opts);
+	        setTimeout(function() {
+	                $this.spinner('remove');
+	        }, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
-				numrows = result.numrows; 
+				numrows = result.numrows;
 				if (result.error_msg != 'null_query') {
 					specific_info(news);
 					for (i=0; i < numrows; i++) {
@@ -48,6 +54,12 @@ function more_info () {
 		});
 		$('#prev_show').on("click",function() {
 			get_link = 'new_sort.php?q='+query+'&s='+prevs;
+			var $this = $("#prev_show");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+	        $this.spinner(opts);
+	        setTimeout(function() {
+	                $this.spinner('remove');
+	        }, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
@@ -88,6 +100,12 @@ function more_info () {
 				document.getElementById("sort_distance").style.color = "white";
 				filter = "price_sort";
 			}
+			var $this = $("#sort_price");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get('new_sort.php?q='+query+'&s=&filter='+filter, function(data) {
 				news = 0; prevs = 0;
 				result = $.parseJSON(data);
@@ -138,6 +156,12 @@ function more_info () {
 				document.getElementById("sort_price").style.color = "white";
 				filter = "distance_sort";
 			}
+			var $this = $("#sort_distance");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get('new_sort.php?q='+query+'&s=&filter='+filter, function(data) {
 				news = 0; prevs = 0;
 				result = $.parseJSON(data);
@@ -191,6 +215,12 @@ function more_info () {
 				document.getElementById("utils_no").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
+			var $this = $("#filters");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -231,6 +261,12 @@ function more_info () {
 				document.getElementById("utils_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=0&filter='+filter;
+			var $this = $("#filters");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
@@ -280,6 +316,12 @@ function more_info () {
 				document.getElementById("lease_no").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=0&filter='+filter;
+			var $this = $("#filters");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -329,6 +371,12 @@ function more_info () {
 				document.getElementById("lease_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
+			var $this = $("#filters");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -378,6 +426,12 @@ function more_info () {
 				document.getElementById("furnished_no").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
+			var $this = $("#filters");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -427,6 +481,12 @@ function more_info () {
 				document.getElementById("furnished_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
+			var $this = $("#filters");
+			var opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -474,6 +534,12 @@ function new_submit (x) {
 	if(!x) { query = $('[name=q]').val(); }
 	else { query =x; }
 	get_link = 'new_sort.php?q='+query+'&s=';
+	var $this = $("#results");
+	var opts = { height: 60, width:60, position: 'center', hide: true }
+	$this.spinner(opts);
+	setTimeout(function() {
+		$this.spinner('remove');
+	}, 600);
 	$.get(get_link, function(data) {
 		result = $.parseJSON(data);
 		numrows = result.numrows;

@@ -17,6 +17,7 @@ session_start(); ?>
 		<link rel="stylesheet" href="jquery-ui-1.8.16.custom/development-bundle/demos/demos.css">
 		<script src="tools/slider.js"></script>
 		<script src="tools/specific.js"></script>
+		<script src="spinner/jquery.spinner.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
@@ -25,7 +26,7 @@ session_start(); ?>
     			<img id="title" src="title3.png" style=""/>
     		</a>
         	<div id="zippy"> 
-    			<a href="/turtle"><img src="turtle3.png"/></a>
+    			<a href="/turtle"><img class="loading" src="turtle3.png"/></a>
     		</div>
 			<div id="green_page" style="">
 				<div id="search_results">
@@ -145,8 +146,8 @@ session_start(); ?>
 						$test_count++;
 					}
 					?>
-					<div id="prev_show">&#8592;</div>
-					<div id="next_show">&#8594;</div>
+					<div id="prev_show" class="button_click">&#8592;</div>
+					<div id="next_show" class="button_click">&#8594;</div>
 					</div><!--End results table -->
 					<?php 
 						$currPage = (($s/$limit) + 1);
