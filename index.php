@@ -1,6 +1,7 @@
-<?php 
+<?php
 session_start(); 
-include "config.php"; 
+include "config.php";
+$_SESSION['no_refresh'] = "";
 ?>
 <html>
 <head>
@@ -21,7 +22,7 @@ include "config.php";
                 <form action="new_search.php" method="get" class="search_form" name="search_form" >
                     <label for="q"></label>
                     <input onload ="document.search_form.q.focus();" onFocus="this.value = (this.value=='Where are you moving to?')? '' : this.value;" value="Where are you moving to?" type="text" name="q"  class="search" /><br/>
-                    <button class="sort_buttons">Search</button>
+                    <button class="sort_buttons" style="margin:10px 0;">Search</button>
                 </form>
             </div> <!--end form -->
         </div> <!--end content -->

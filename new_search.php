@@ -32,7 +32,7 @@ session_start(); ?>
 				<?php
 				if (!isset($_SESSION)) { echo "Session not set, please verify cookie settings and reload the page"; exit;}
 				include "config.php";
-				$var = @$_GET['q'] ;
+				$var = @$_GET['q'];
 				$s = @$_GET['s'];
 				$trimmed = trim($var); //trim whitespace from the stored variable
 				$supertrimmed = mysql_escape_string($trimmed);
@@ -51,7 +51,7 @@ session_start(); ?>
 					?> <p>We dont seem to have a search parameter!</p> <?php
 					exit;
 				}
-				if (!isset($_SESSION['no_refresh']))
+				if (empty($_SESSION['no_refresh']))
 					$_SESSION['no_refresh'] = $supertrimmed;
 				echo "<script>var query = '".$_SESSION['no_refresh']."'</script>"; 
 				$query = "Select * from temp where address like \"%$_SESSION[no_refresh]%\"";
@@ -78,11 +78,13 @@ session_start(); ?>
 				if ($numrows == 0)
 				{
 					?>
-					<p style="margin-left:80px; margin-top:20px;" class="showing">Sorry, your search for "<?php echo "$supertrimmed"; ?>" did not return any results.</p>
-					<form style="margin-left:200px;" action="new_search.php" method="get" class="search_form">
-	                    <label for="q"></label>
-	                    <input onFocus="this.value = (this.value=='new search') ? '' : this.value;" value="new search" type="text" name="q"  class="search" />
-	                </form> <?php
+					<p style="margin-left:80px; margin-top:20px;" class="showing">Sorry, your search for "<?php echo "$_SESSION[no_refresh]"; ?>" did not return any results.</p>
+					<script>
+						$(document).ready(function () {
+							document.getElementById("next_show").style.visibility = "hidden";
+							document.getElementById("prev_show").style.visibility = "hidden"; });
+					</script>
+					<?php
 	 			}
 				else {
 				// next determine if s has been passed to script, if not use 0
@@ -125,27 +127,26 @@ session_start(); ?>
 							$test_count = 0;
 							echo "<script> var x = []; var list_info = [x,x,x,x,x]; </script>";
 							// now you can display the results returned
-							while ($row= mysql_fetch_array($result)) {
-								$padding = $row['distance'] * 15 + 130;
+							while ($row= mysql_fetch_array($result) || $test_count < 5) {
 						?> 
 								<div id="row_results">
 									<div>
 										<div <? echo "id=\"cost".$test_count."\""; ?>>
-											<p><?php echo "\${$row['cost']}";  ?></p>
+											<p></p>
 										</div>
 										<div  <? echo "id=\"pad_dist".$test_count."\""; ?> >
-											<p class="listing" <? echo "id=\"dist".$test_count."\""; ?>><?php echo "{$row['distance']} km";  ?></p>
+											<p class="listing" <? echo "id=\"dist".$test_count."\""; ?>></p>
 										</div>
 										<div <? echo "id=\"dialog".$test_count."\""; ?>></div>
 									</div>
 								</div><!--End row results -->
 						<?php
-						echo "<script>document.getElementById(\"pad_dist".$test_count."\").style.marginLeft=
-						\"$padding px\"</script>";
 						$count++;
 						$test_count++;
 					}
 					?>
+					<div id="prev_show">&#8592;</div>
+					<div id="next_show">&#8594;</div>
 					</div><!--End results table -->
 					<?php 
 						$currPage = (($s/$limit) + 1);
@@ -161,30 +162,28 @@ session_start(); ?>
 						if (!((($s+$limit)/$limit)==$pages) && $pages!=1) {
 							// not last page so give NEXT link
 							$news=$s+$limit;
-							echo "<script>var news = '".$news."'; var prevs = 0; var sort = '".$sort."'; </script>"; ?>
-					<div>
-						<div id="prev_show"><button class="page_buttons" id="prev" style="">Prev Page</button> </div>
-						<div id="next_show"><button class="page_buttons" id="next" style="margin-top:-28.5px; margin-left:100px;">Next Page</button></div>
-					</div> <?
+							echo "<script>var news = '".$news."'; var prevs = 0; var sort = '".$sort."'; </script>";
 				}
 	}
-				if ($numrows != 0) {  ?>
-					<div id="filters">
-						<div class="filter_buttons">Utilities:
-							<a href="#" id="utils_yes">[Yes]</a> /
-							<a href="#" id="utils_no">[No]</a>
-						</div ><br/>
-						<div  class="filter_buttons" >Lease:
-							<a href="#" id="lease_yes">[Yes]</a> /
-							<a href="#" id="lease_no">[No]</a>
-						</div ><br/>
-						<div  class="filter_buttons" >Furnished:
-							<a href="#" id="furnished_yes">[Yes]</a> /
-							<a href="#" id="furnished_no">[No]</a>
-						</div ><br/>
-					</div> <? } ?>
+				if ($numrows != 0) {  
+					echo "<script>new_submit('$_SESSION[no_refresh]');</script>";
+					} ?>
 				</div><!--end search_result -->
 			</div><!--end green_page -->
+			<div id="filters">
+				<div class="filter_buttons">Utilities:
+					<a href="#" id="utils_yes">[Yes]</a> /
+					<a href="#" id="utils_no">[No]</a>
+				</div ><br/>
+				<div  class="filter_buttons" >Lease:
+					<a href="#" id="lease_yes">[Yes]</a> /
+					<a href="#" id="lease_no">[No]</a>
+				</div ><br/>
+				<div  class="filter_buttons" >Furnished:
+					<a href="#" id="furnished_yes">[Yes]</a> /
+					<a href="#" id="furnished_no">[No]</a>
+				</div ><br/>
+			</div>
 			<div id="footer" style="">
 				<p class="footer_copyright" onclick="/">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="#">Feedback</a> | <a class="footer_links" href="#" onclick="#">Contact us</a></p>
 			</div>

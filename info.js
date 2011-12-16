@@ -1,6 +1,6 @@
 function more_info () {
 	$(document).ready(function(){
-		$('#next').on("click",function() {
+		$('#next_show').on("click",function() {
 			get_link = 'new_sort.php?q='+query+'&s='+news;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
@@ -8,18 +8,22 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info(news);
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-						news++;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
+						news++;				
 					}
 					totalrows = result.totalrows; a = news; b = a - numrows + 1; prevs = news - 10;
 					if (numrows < 5 || a == totalrows) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 							news++;
 						}
 						news = b - 1; prevs = news - 5;
@@ -33,31 +37,23 @@ function more_info () {
 				}
 				else {
 					for (i= 0; i < 5; i++) {
-						document.getElementById("cost"+i).innerHTML = "";
-						document.getElementById("dist"+i).innerHTML = "";
+						document.getElementById("cost"+i).style.visibility = "hidden";
+						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
 				}
 			});
 		});
-		$('#prev').on("click",function() {
+		$('#prev_show').on("click",function() {
 			get_link = 'new_sort.php?q='+query+'&s='+prevs;
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
 				if (result.error_msg != 'null_query') {
 					specific_info(prevs);
-					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
-						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-						news--;
-						document.getElementById("cost"+i).style.visibility = "visible";
-						document.getElementById("dist"+i).style.visibility = "visible";
-					}
+					insert_info(); news -= numrows;
 					if (a%5) { news += 5; } a = news; b = a - numrows + 1;
 					prevs = news - 10; totalrows = result.totalrows;
 					if (news <= 5) {
@@ -73,8 +69,9 @@ function more_info () {
 				}
 				else {
 					for (i= 0; i < 5; i++) {
-						document.getElementById("cost"+i).innerHTML = "";
-						document.getElementById("dist"+i).innerHTML = "";
+						document.getElementById("cost"+i).style.visibility = "hidden";
+						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -98,17 +95,21 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 						news++;				
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 						document.getElementById("next_show").style.visibility = "hidden";
 					}
@@ -118,8 +119,9 @@ function more_info () {
 				}
 				else {
 					for (i= 0; i < 5; i++) {
-						document.getElementById("cost"+i).innerHTML = "";
-						document.getElementById("dist"+i).innerHTML = "";
+						document.getElementById("cost"+i).style.visibility = "hidden";
+						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -143,17 +145,21 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 						news++;				
 					}a = news; b = a - numrows + 1; totalrows = result.totalrows;
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 							news++;
 						}
 						a = totalrows; b = totalrows - numrows + 1;
@@ -167,6 +173,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -191,19 +198,12 @@ function more_info () {
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
 					specific_info();
-					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).style.visibility = "visible";
-						document.getElementById("dist"+i).style.visibility = "visible";
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
-						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-					}
+					insert_info(result);
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -213,6 +213,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -240,16 +241,18 @@ function more_info () {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).style.visibility = "visible";
 						document.getElementById("dist"+i).style.visibility = "visible";
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -259,6 +262,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -286,16 +290,18 @@ function more_info () {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).style.visibility = "visible";
 						document.getElementById("dist"+i).style.visibility = "visible";
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -305,6 +311,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -332,16 +339,18 @@ function more_info () {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).style.visibility = "visible";
 						document.getElementById("dist"+i).style.visibility = "visible";
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -351,6 +360,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -378,16 +388,18 @@ function more_info () {
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).style.visibility = "visible";
 						document.getElementById("dist"+i).style.visibility = "visible";
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -397,6 +409,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -417,25 +430,29 @@ function more_info () {
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
-				news = 5;
-				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
+				news = 0;
+				prevs = 0; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
 						document.getElementById("cost"+i).style.visibility = "visible";
 						document.getElementById("dist"+i).style.visibility = "visible";
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
+						news++
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
+					a = news;
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
@@ -443,6 +460,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -452,9 +470,9 @@ function more_info () {
 	});
 }
 
-function new_submit () {
-	query = $('[name=q]').val();
-	console.log(query);
+function new_submit (x) {
+	if(!x) { query = $('[name=q]').val(); }
+	else { query =x; }
 	get_link = 'new_sort.php?q='+query+'&s=';
 	$.get(get_link, function(data) {
 		result = $.parseJSON(data);
@@ -462,34 +480,53 @@ function new_submit () {
 		news = 0;
 		prevs = 0; totalrows = result.totalrows;
 		if (result.error_msg != 'null_query') {
-			specific_info();
+			specific_info(); document.getElementById("next_show").style.visibility = "visible";
 			for (i=0; i < numrows; i++) {
+				document.getElementById("pad_dist"+i).style.visibility = "visible";
 				document.getElementById("cost"+i).style.visibility = "visible";
 				document.getElementById("dist"+i).style.visibility = "visible";
-				document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+				document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 				document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-				padding = result.result[i].distance * 15 + 130;
+				padding = result.result[i].distance * 15 + 135;
 				padding_left = padding+"px";
-				document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 				news++;
 			}
 			if (numrows < 5) {
 				for (i= 4; i >= numrows ; i--) {
 					document.getElementById("cost"+i).style.visibility = "hidden";
 					document.getElementById("dist"+i).style.visibility = "hidden";
+					document.getElementById("pad_dist"+i).style.visibility = "hidden";
 				}
-				news++;
+				document.getElementById("next_show").style.visibility = "hidden";
 			}
+			document.getElementById("prev_show").style.visibility = "hidden";
 			document.getElementById("showing_results").innerHTML = 
-			"<p class='showing'>Showing results 1 to 5 of "+totalrows+"</p>";
+			"<p class='showing'>Showing results 1 to "+numrows+" of "+totalrows+"</p>";
 		}
 		else {
 			for (i= 0; i < 5; i++) {
 				document.getElementById("cost"+i).style.visibility = "hidden";
 				document.getElementById("dist"+i).style.visibility = "hidden";
+				document.getElementById("pad_dist"+i).style.visibility = "hidden";
 			}
+			document.getElementById("next_show").style.visibility = "hidden";
+			document.getElementById("prev_show").style.visibility = "hidden";
 			document.getElementById("showing_results").innerHTML = 
 			"<p class='showing'>No results were found</p>";
 		}
 	});
+}
+
+function insert_info () {
+	for (i=0; i < numrows; i++) {
+		document.getElementById("cost"+i).style.visibility = "visible";
+		document.getElementById("dist"+i).style.visibility = "visible";
+		document.getElementById("pad_dist"+i).style.visibility = "visible";
+		document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
+		document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
+		padding = result.result[i].distance * 15 + 135;
+		padding_left = padding+"px";
+		document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
+	}
 }
