@@ -110,6 +110,7 @@ session_start(); ?>
 							$a = $s + ($limit) ;
      						if ($a > $numrows) { $a = $numrows ; }
      						$b = $s + 1 ;
+echo "<script>console.log('".mysql_escape_string($query)."');</script>";
      						echo "<div id='showing_results'><p class='showing'>Showing results $b to $a of $numrows </p> </div> <script> var b = $b; var a = $a; var totalrows = $numrows;</script>"; ?>
 						</div>
 						<div  id="re_search">
@@ -173,7 +174,7 @@ session_start(); ?>
 							echo "<script>var news = '".$news."'; var prevs = 0; var sort = '".$sort."'; </script>";
 				}
 	}
-				if ($numrows != 0) {  
+				if ($numrows != 0) {
 					echo "<script>new_submit('$_SESSION[no_refresh]');</script>";
 					} ?>
 				</div><!--end search_result -->
@@ -193,7 +194,7 @@ session_start(); ?>
 				</div ><br/>
 			</div>
 			<div id="footer" style="">
-				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#">Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
+				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" >Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
 			</div>
 	    </div><!--end wrapper -->
 	</body>

@@ -4,7 +4,6 @@ if (!isset($_SESSION)) {
 	echo "Session not set, please verify cookie settings and reload the page"; 
 	exit;
 }
-
 include "config.php";
 //query ,position # and filter
 $var = @$_GET['q'] ;
@@ -186,8 +185,8 @@ else {
 	echo "{\"result\":[";
 	while ($row= mysql_fetch_array($result)) { 
 		if ($count >= $numrows || $count >= $limit)
-			{ echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"" . trim($row['description']) ."\"}"; break; }
-		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"" . trim($row['description']) ."\"},";
+			{ echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"test\"}"; break; }
+		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"test\"},";
 		$count++;
 	}
 	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\", \"debug\": \"".$numrows."\"}";

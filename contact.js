@@ -1,4 +1,4 @@
-function contact () {
+/*function contact () {
 	document.getElementById("sort_distance").style.display = "none";
 	document.getElementById("sort_price").style.display = "none";
 	document.getElementById("slider-range-min").style.display = "none";
@@ -33,7 +33,7 @@ function feedback () {
 	}
 	document.getElementById("feedback").style.display = "inline";
 }
-/*
+
 $(document).ready(function() {
 	$('#feedback_submit').on("click", function() {
 		feedback = $('[name=f]').val();
