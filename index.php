@@ -1,11 +1,11 @@
-<?php 
+<?php
 session_start(); 
-include "config.php"; 
+include "config.php";
+$_SESSION['no_refresh'] = "";
 ?>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="style.css" />
-<script language="JavaScript" src="contact_index.js"></script>
 <title>Turtle&#39;s Den</title>
 <meta name="description" content="apartment search">
 <meta name="keywords" content="apartment search waterloo students housing rent lease sublet">
@@ -21,7 +21,7 @@ include "config.php";
                 <form action="new_search.php" method="get" class="search_form" name="search_form" >
                     <label for="q"></label>
                     <input onload ="document.search_form.q.focus();" onFocus="this.value = (this.value=='Where are you moving to?')? '' : this.value;" value="Where are you moving to?" type="text" name="q"  class="search" /><br/>
-                    <button class="search">New search</button>
+                    <button class="sort_buttons" style="margin:10px 0;">Search</button>
                 </form>
             </div> <!--end form -->
         </div> <!--end content -->

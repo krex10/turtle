@@ -1,6 +1,12 @@
 function specific_info (next_page) {
 	if (!next_page) { next_page = 0; }
 	get_link = 'new_sort.php?q='+query+'&s='+next_page;
+	$this = $("#results");
+	opts = { height: 60, width:60, position: 'center', hide: true }
+	$this.spinner(opts); console.log("2");
+	setTimeout(function() {
+		$this.spinner('remove');
+	}, 600);
 	$.get(get_link, function(data) {
 		result = $.parseJSON(data);
 		numrows = result.numrows;
@@ -13,7 +19,8 @@ function specific_info (next_page) {
 																"<br/>Distance: "+result.result[i].distance+" km"+
 																"<br/>Utilities included: "+result.result[i].utils+
 																"<br/>Furnished: "+result.result[i].furnished+
-																"<br/>Lease required: "+result.result[i].lease;
+																"<br/>Lease required: "+result.result[i].lease+
+																"<br/>Description: "+result.result[i].desc;
 			}
 			$("#dist0").on("click", function () {
 				$("#dialog0").dialog({ 

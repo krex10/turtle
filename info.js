@@ -1,18 +1,27 @@
 function more_info () {
 	$(document).ready(function(){
-		$('#next').on("click",function() {
+		$('#next_show').on("click",function() {
 			get_link = 'new_sort.php?q='+query+'&s='+news;
+			$this = $("#next_show");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+	        $this.spinner(opts);
+	        setTimeout(function() {
+	                $this.spinner('remove');
+	        }, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
-				numrows = result.numrows; 
+				numrows = result.numrows;
 				if (result.error_msg != 'null_query') {
 					specific_info(news);
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 						news++;
 					}
 					totalrows = result.totalrows; a = news; b = a - numrows + 1; prevs = news - 10;
@@ -20,6 +29,7 @@ function more_info () {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 							news++;
 						}
 						news = b - 1; prevs = news - 5;
@@ -33,37 +43,35 @@ function more_info () {
 				}
 				else {
 					for (i= 0; i < 5; i++) {
-						document.getElementById("cost"+i).innerHTML = "";
-						document.getElementById("dist"+i).innerHTML = "";
+						document.getElementById("cost"+i).style.visibility = "hidden";
+						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
 				}
 			});
 		});
-		$('#prev').on("click",function() {
+		$('#prev_show').on("click",function() {
 			get_link = 'new_sort.php?q='+query+'&s='+prevs;
+			$this = $("#prev_show");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+	        $this.spinner(opts);
+	        setTimeout(function() {
+	                $this.spinner('remove');
+					if (news == 5) {
+						document.getElementById("prev_show").style.visibility = "hidden";
+					}
+					counter--;
+	        }, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
 				if (result.error_msg != 'null_query') {
 					specific_info(prevs);
-					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
-						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-						news--;
-						document.getElementById("cost"+i).style.visibility = "visible";
-						document.getElementById("dist"+i).style.visibility = "visible";
-					}
+					insert_info(); news -= numrows;
 					if (a%5) { news += 5; } a = news; b = a - numrows + 1;
 					prevs = news - 10; totalrows = result.totalrows;
-					if (news <= 5) {
-						document.getElementById("prev_show").style.visibility = "hidden";
-					}
-					counter--;
 					if (prevs < 0) {
 						prevs = 0; news = 5; b = 1; a = 5;
 					}
@@ -73,8 +81,9 @@ function more_info () {
 				}
 				else {
 					for (i= 0; i < 5; i++) {
-						document.getElementById("cost"+i).innerHTML = "";
-						document.getElementById("dist"+i).innerHTML = "";
+						document.getElementById("cost"+i).style.visibility = "hidden";
+						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -91,6 +100,12 @@ function more_info () {
 				document.getElementById("sort_distance").style.color = "white";
 				filter = "price_sort";
 			}
+			$this = $("#sort_price");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get('new_sort.php?q='+query+'&s=&filter='+filter, function(data) {
 				news = 0; prevs = 0;
 				result = $.parseJSON(data);
@@ -98,17 +113,21 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 						news++;				
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 						document.getElementById("next_show").style.visibility = "hidden";
 					}
@@ -118,8 +137,9 @@ function more_info () {
 				}
 				else {
 					for (i= 0; i < 5; i++) {
-						document.getElementById("cost"+i).innerHTML = "";
-						document.getElementById("dist"+i).innerHTML = "";
+						document.getElementById("cost"+i).style.visibility = "hidden";
+						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -136,6 +156,12 @@ function more_info () {
 				document.getElementById("sort_price").style.color = "white";
 				filter = "distance_sort";
 			}
+			$this = $("#sort_distance");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get('new_sort.php?q='+query+'&s=&filter='+filter, function(data) {
 				news = 0; prevs = 0;
 				result = $.parseJSON(data);
@@ -143,17 +169,21 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 						news++;				
 					}a = news; b = a - numrows + 1; totalrows = result.totalrows;
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 							news++;
 						}
 						a = totalrows; b = totalrows - numrows + 1;
@@ -167,6 +197,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -184,6 +215,12 @@ function more_info () {
 				document.getElementById("utils_no").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
+			$this = $("#filters");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -191,17 +228,12 @@ function more_info () {
 				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
 					specific_info();
-					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
-						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
-						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
-					}
+					insert_info(result);
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -211,6 +243,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -228,6 +261,12 @@ function more_info () {
 				document.getElementById("utils_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=0&filter='+filter;
+			$this = $("#filters");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows; 
@@ -236,16 +275,20 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -255,6 +298,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -272,6 +316,12 @@ function more_info () {
 				document.getElementById("lease_no").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=0&filter='+filter;
+			$this = $("#filters");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -280,16 +330,20 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -299,6 +353,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -316,6 +371,12 @@ function more_info () {
 				document.getElementById("lease_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
+			$this = $("#filters");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -324,16 +385,20 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -343,6 +408,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -360,6 +426,12 @@ function more_info () {
 				document.getElementById("furnished_no").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
+			$this = $("#filters");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
@@ -368,16 +440,20 @@ function more_info () {
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
 					document.getElementById("showing_results").innerHTML = 
@@ -387,6 +463,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -404,26 +481,38 @@ function more_info () {
 				document.getElementById("furnished_yes").style.color = "white";
 			}
 			get_link = 'new_sort.php?q='+query+'&s=&filter='+filter;
+			$this = $("#filters");
+			opts = { height: 60, width:60, position: 'center', hide: true }
+			$this.spinner(opts);
+			setTimeout(function() {
+				$this.spinner('remove');
+			}, 600);
 			$.get(get_link, function(data) {
 				result = $.parseJSON(data);
 				numrows = result.numrows;
-				news = 5;
-				prevs = 0; a = news; b = prevs +1; totalrows = result.totalrows;
+				news = 0;
+				prevs = 0; b = prevs +1; totalrows = result.totalrows;
 				if (result.error_msg != 'null_query') {
 					specific_info();
 					for (i=0; i < numrows; i++) {
-						document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+						document.getElementById("cost"+i).style.visibility = "visible";
+						document.getElementById("dist"+i).style.visibility = "visible";
+						document.getElementById("pad_dist"+i).style.visibility = "visible";
+						document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 						document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-						padding = result.result[i].distance * 15;
+						padding = result.result[i].distance * 15 + 135;
 						padding_left = padding+"px";
-						document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+						document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
+						news++
 					}
 					if (numrows < 5) {
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
+							document.getElementById("pad_dist"+i).style.visibility = "hidden";
 						}
 					}
+					a = news;
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
 				}
@@ -431,6 +520,7 @@ function more_info () {
 					for (i= 0; i < 5; i++) {
 						document.getElementById("cost"+i).style.visibility = "hidden";
 						document.getElementById("dist"+i).style.visibility = "hidden";
+						document.getElementById("pad_dist"+i).style.visibility = "hidden";
 					}
 					document.getElementById("showing_results").innerHTML = 
 					"<p class='showing'>No results were found</p>";
@@ -440,10 +530,16 @@ function more_info () {
 	});
 }
 
-function new_submit () {
-	query = $('[name=q]').val();
-	console.log(query);
+function new_submit (x) {
+	if(!x) { query = $('[name=q]').val(); }
+	else { query =x; }
 	get_link = 'new_sort.php?q='+query+'&s=';
+	$this = $("#results");
+	opts = { height: 60, width:60, position: 'center', hide: true }
+	$this.spinner(opts);
+	setTimeout(function() {
+		$this.spinner('remove');
+	}, 600);
 	$.get(get_link, function(data) {
 		result = $.parseJSON(data);
 		numrows = result.numrows;
@@ -451,33 +547,70 @@ function new_submit () {
 		prevs = 0; totalrows = result.totalrows;
 		if (result.error_msg != 'null_query') {
 			specific_info();
+			document.getElementById("next_show").style.visibility = "visible";
 			for (i=0; i < numrows; i++) {
+				document.getElementById("pad_dist"+i).style.visibility = "visible";
 				document.getElementById("cost"+i).style.visibility = "visible";
 				document.getElementById("dist"+i).style.visibility = "visible";
-				document.getElementById("cost"+i).innerHTML = "$"+result.result[i].cost;
+				document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 				document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
-				padding = result.result[i].distance * 15;
+				padding = result.result[i].distance * 15 + 135;
 				padding_left = padding+"px";
-				document.getElementById("pad_dist"+i).style.paddingLeft = padding_left;
+				document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
 				news++;
 			}
 			if (numrows < 5) {
 				for (i= 4; i >= numrows ; i--) {
 					document.getElementById("cost"+i).style.visibility = "hidden";
 					document.getElementById("dist"+i).style.visibility = "hidden";
+					document.getElementById("pad_dist"+i).style.visibility = "hidden";
 				}
-				news++;
+				document.getElementById("next_show").style.visibility = "hidden";
 			}
+			document.getElementById("prev_show").style.visibility = "hidden";
 			document.getElementById("showing_results").innerHTML = 
-			"<p class='showing'>Showing results 1 to 5 of "+totalrows+"</p>";
+			"<p class='showing'>Showing results 1 to "+numrows+" of "+totalrows+"</p>";
 		}
 		else {
 			for (i= 0; i < 5; i++) {
 				document.getElementById("cost"+i).style.visibility = "hidden";
 				document.getElementById("dist"+i).style.visibility = "hidden";
+				document.getElementById("pad_dist"+i).style.visibility = "hidden";
 			}
+			document.getElementById("next_show").style.visibility = "hidden";
+			document.getElementById("prev_show").style.visibility = "hidden";
 			document.getElementById("showing_results").innerHTML = 
 			"<p class='showing'>No results were found</p>";
 		}
 	});
+	$( "#cost0" ).draggable({
+				appendTo: "body",
+				helper: "clone"
+			});
+			$( "#dist0" ).draggable({
+						appendTo: "body",
+						helper: "clone"
+					});
+	$( "#dropzone ol" ).droppable({
+		activeClass: "ui-state-default",
+		hoverClass: "ui-state-hover",
+		accept: ":not(.ui-sortable-helper)",
+		drop: function( event, ui ) {
+			$( this ).find( ".placeholder" ).remove();
+			$( "<li></li>" ).text( ui.draggable.text() ).appendTo( this );
+		}
+	});
+}
+
+function insert_info () {
+	for (i=0; i < numrows; i++) {
+		document.getElementById("cost"+i).style.visibility = "visible";
+		document.getElementById("dist"+i).style.visibility = "visible";
+		document.getElementById("pad_dist"+i).style.visibility = "visible";
+		document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
+		document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
+		padding = result.result[i].distance * 15 + 135;
+		padding_left = padding+"px";
+		document.getElementById("pad_dist"+i).style.marginLeft = padding_left;
+	}
 }
