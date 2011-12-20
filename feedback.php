@@ -1,5 +1,4 @@
 <?php
-/*
 session_start(); 
 include "config.php";
 if (!isset($_SESSION)) { 
@@ -15,5 +14,5 @@ if (mail("kavi_nessen@hotmail.com", "Turtle Contact", $supertrimmed))
 }
 else {
 	echo "{\"debug\": \"not worked\"}";
-}*/
+}
 ?>

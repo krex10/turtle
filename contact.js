@@ -1,4 +1,4 @@
-/*function contact () {
+function contact () {
 	document.getElementById("sort_distance").style.display = "none";
 	document.getElementById("sort_price").style.display = "none";
 	document.getElementById("slider-range-min").style.display = "none";
@@ -51,4 +51,4 @@ $(document).ready(function() {
 			}
 		});
 	});
-});*/
+});

@@ -52,7 +52,7 @@ $(function() {
 					}
 					document.getElementById("prev_show").style.visibility = "hidden";
 					document.getElementById("showing_results").innerHTML = 
-					"<p class='showing'>Showing results "+b+" to "+a+" of "+totalrows+"</p>";
+					"<p class='showing'>Showing results 1 to "+a+" of "+totalrows+"</p>";
 				}
 				else{
 					for (i= 0; i < 5; i++) {

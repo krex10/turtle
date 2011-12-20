@@ -536,7 +536,7 @@ function new_submit (x) {
 	get_link = 'new_sort.php?q='+query+'&s=';
 	$this = $("#results");
 	opts = { height: 60, width:60, position: 'center', hide: true }
-	$this.spinner(opts); console.log("2");
+	$this.spinner(opts);
 	setTimeout(function() {
 		$this.spinner('remove');
 	}, 600);
@@ -581,6 +581,23 @@ function new_submit (x) {
 			document.getElementById("prev_show").style.visibility = "hidden";
 			document.getElementById("showing_results").innerHTML = 
 			"<p class='showing'>No results were found</p>";
+		}
+	});
+	$( "#cost0" ).draggable({
+				appendTo: "body",
+				helper: "clone"
+			});
+			$( "#dist0" ).draggable({
+						appendTo: "body",
+						helper: "clone"
+					});
+	$( "#dropzone ol" ).droppable({
+		activeClass: "ui-state-default",
+		hoverClass: "ui-state-hover",
+		accept: ":not(.ui-sortable-helper)",
+		drop: function( event, ui ) {
+			$( this ).find( ".placeholder" ).remove();
+			$( "<li></li>" ).text( ui.draggable.text() ).appendTo( this );
 		}
 	});
 }

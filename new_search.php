@@ -2,8 +2,9 @@
 session_start(); ?>
 <html>
 	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=8" />
 		<title>Turtle&#39;s Den</title>
-		<script language="JavaScript" src="jquery.js"></script>
+		<script language="JavaScript" type="text/javascript" src="jquery.js"></script>
 		<script language="JavaScript" src="filter.js"></script>
 		<script language="JavaScript" src="info.js"></script>
 		<script language="JavaScript" src="contact.js"></script>
@@ -14,6 +15,8 @@ session_start(); ?>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.mouse.js"></script>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.slider.js"></script>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.dialog.js"></script>
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.draggable.js"></script>
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.droppable.js"></script>
 		<link rel="stylesheet" href="jquery-ui-1.8.16.custom/development-bundle/demos/demos.css">
 		<script src="tools/slider.js"></script>
 		<script src="tools/specific.js"></script>
@@ -32,7 +35,7 @@ session_start(); ?>
 				<div id="search_results">
 					<div id="feedback">
 						<p class='showing'>Give us some feedback</p>
-						<form id="feedback_form" action="#">
+						<form id="feedback_form" onsubmit="event.preventDefault();">
 							<textarea id="feedback_text" rows="18" cols="75" name="f"></textarea>
 							<input type="submit" value="Send!" class="sort_buttons" id="feedback_submit" />
 						</form>
@@ -156,6 +159,14 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 					?>
 					<div id="prev_show" class="button_click">&#8592;</div>
 					<div id="next_show" class="button_click">&#8594;</div>
+					<div id="dropzone">
+						<h1 class="dropzone_header">Drop Zone</h1>
+							<div class="dropzone_content">
+								<ol>
+									<li class="placeholder">Add your items here</li>
+								</ol>
+							</div>
+					</div>
 					</div><!--End results table -->
 					<?php 
 						$currPage = (($s/$limit) + 1);
@@ -194,7 +205,7 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 				</div ><br/>
 			</div>
 			<div id="footer" style="">
-				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" >Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
+				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="feedback();" >Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
 			</div>
 	    </div><!--end wrapper -->
 	</body>
