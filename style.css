@@ -334,3 +334,62 @@ a.footer_links:hover {
     -moz-border-radius: 10px; 
     -webkit-border-radius: 10px;
 }
+
+#dropzone {
+    float:right;
+    position:relative;
+    margin:-200px -250px 0 0;
+    width:175px;
+}
+
+.comparable:hover {
+    cursor:move;
+}
+
+#dropzone ul:hover {
+    cursor:move;
+}
+
+#dropzone ul {
+    font-size:14px;
+    color:white;
+    background:green;
+    border-radius:10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    padding:5px;
+}
+
+.dropzone_header_grey {
+    background:#F5F5F5;
+    color:#A9A9A9;
+    width:175px;
+    text-align:center;
+    border-radius:10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+.dropzone_header_grey:hover {
+    cursor:not-allowed;
+}
+
+.dropzone_header {
+    background:red;
+    color:white;
+    width:175px;
+    text-align:center;
+    border-radius:10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+.dropzone_header:hover {
+    cursor:hand; cursor:pointer;
+    color:red;
+    background:black;
+}
+
+.list_checkbox {
+    margin:-30px 0 0 -20px;
+}

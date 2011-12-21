@@ -552,7 +552,7 @@ function new_submit (x) {
 				document.getElementById("pad_dist"+i).style.visibility = "visible";
 				document.getElementById("cost"+i).style.visibility = "visible";
 				document.getElementById("dist"+i).style.visibility = "visible";
-				document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
+				document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p><input class='list_checkbox' type='checkbox' name='"+i+"' value=''/>";
 				document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 				padding = result.result[i].distance * 15 + 135;
 				padding_left = padding+"px";
@@ -581,23 +581,6 @@ function new_submit (x) {
 			document.getElementById("prev_show").style.visibility = "hidden";
 			document.getElementById("showing_results").innerHTML = 
 			"<p class='showing'>No results were found</p>";
-		}
-	});
-	$( "#cost0" ).draggable({
-				appendTo: "body",
-				helper: "clone"
-			});
-			$( "#dist0" ).draggable({
-						appendTo: "body",
-						helper: "clone"
-					});
-	$( "#dropzone ol" ).droppable({
-		activeClass: "ui-state-default",
-		hoverClass: "ui-state-hover",
-		accept: ":not(.ui-sortable-helper)",
-		drop: function( event, ui ) {
-			$( this ).find( ".placeholder" ).remove();
-			$( "<li></li>" ).text( ui.draggable.text() ).appendTo( this );
 		}
 	});
 }

@@ -17,9 +17,11 @@ session_start(); ?>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.dialog.js"></script>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.draggable.js"></script>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.droppable.js"></script>
+		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.sortable.js"></script>
 		<link rel="stylesheet" href="jquery-ui-1.8.16.custom/development-bundle/demos/demos.css">
 		<script src="tools/slider.js"></script>
 		<script src="tools/specific.js"></script>
+		<script src="tools/compare.js"></script>
 		<script src="spinner/jquery.spinner.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
@@ -143,7 +145,7 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 						?>
 								<div id="row_results">
 									<div>
-										<div <? echo "id=\"cost".$test_count."\""; ?>>
+										<div <? echo "id=\"cost".$test_count."\""; ?> class="comparable">
 											<p></p>
 										</div>
 										<div  <? echo "id=\"pad_dist".$test_count."\""; ?> >
@@ -160,11 +162,11 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 					<div id="prev_show" class="button_click">&#8592;</div>
 					<div id="next_show" class="button_click">&#8594;</div>
 					<div id="dropzone">
-						<h1 class="dropzone_header">Drop Zone</h1>
+						<h1 class="dropzone_header_grey">Compare</h1>
 							<div class="dropzone_content">
-								<ol>
-									<li class="placeholder">Add your items here</li>
-								</ol>
+								<ul>
+									<li class="placeholder">Drag and drop listings</li>
+								</ul>
 							</div>
 					</div>
 					</div><!--End results table -->
@@ -205,7 +207,7 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 				</div ><br/>
 			</div>
 			<div id="footer" style="">
-				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="feedback();" >Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
+				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="feedback();" >Feedback</a> | <font color="red">Currently under construction</font></p>
 			</div>
 	    </div><!--end wrapper -->
 	</body>
@@ -215,5 +217,5 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 	?>
 </html>
 <script>
-$(document).ready(function () { more_info(); specific_info ();});
+$(document).ready(function () { more_info(); compare_info(); });
 </script>

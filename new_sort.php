@@ -183,10 +183,13 @@ else {
 	// display what the person searched for
 	$count = 1;
 	echo "{\"result\":[";
-	while ($row= mysql_fetch_array($result)) { 
-		if ($count >= $numrows || $count >= $limit)
-			{ echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"test\"}"; break; }
-		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"test\"},";
+	while ($row= mysql_fetch_array($result)) {
+		$desc_trim = trim($row['description']);
+		$desc = mysql_escape_string($desc_trim);
+		if ($count >= $numrows || $count >= $limit) {
+			echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"".$desc."\", \"rentalid\":\"" . $row['rentalId'] ."\"}"; break; 
+		}
+		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"".$desc."\" , \"rentalid\":\"" . $row['rentalId'] ."\"},";
 		$count++;
 	}
 	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\", \"debug\": \"".$numrows."\"}";

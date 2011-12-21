@@ -26,7 +26,7 @@ $_SESSION['no_refresh'] = "";
             </div> <!--end form -->
         </div> <!--end content -->
 		<div id="footer" style="">
-				<p class="footer_copyright" onclick="/">&copy; 2011 Turtle's Den | <a class="footer_links" href="#">Feedback</a> | <a class="footer_links" href="#">Contact us</a></p>
+				<p class="footer_copyright" onclick="/">&copy; 2011 Turtle's Den | <a class="footer_links" href="#">Feedback</a> | <font color="red">Currently under construction</font></p>
 		</div>
     </div> <!--end wrapper -->
 </body>
