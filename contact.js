@@ -26,7 +26,6 @@ function feedback () {
 	document.getElementById("prev_show").style.display = "none";
 	document.getElementById("distance").style.display = "none";
 	document.getElementById("showing_results").style.display = "none";
-	document.getElementById("dropzone").style.display = "none";
 	for(i=0; i < 5; i ++) {
 		document.getElementById("cost"+i).style.display = "none";
 		document.getElementById("dist"+i).style.display = "none";

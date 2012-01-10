@@ -552,7 +552,7 @@ function new_submit (x) {
 				document.getElementById("pad_dist"+i).style.visibility = "visible";
 				document.getElementById("cost"+i).style.visibility = "visible";
 				document.getElementById("dist"+i).style.visibility = "visible";
-				document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p><input class='list_checkbox' type='checkbox' name='"+i+"' value=''/>";
+				document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
 				document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
 				padding = result.result[i].distance * 15 + 135;
 				padding_left = padding+"px";
