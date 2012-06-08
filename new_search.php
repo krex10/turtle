@@ -22,7 +22,11 @@ session_start(); ?>
 		<script src="tools/slider.js"></script>
 		<script src="tools/specific.js"></script>
 		<script src="tools/compare.js"></script>
+		<script src="tools/google_map.js"></script>
 		<script src="spinner/jquery.spinner.js"></script>
+		<script type="text/javascript"
+		  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDK1vuOeBWL4n2g7IZtmeiTnOhh4QoJ7Dw&sensor=true">
+		</script>
 		<link rel="stylesheet" type="text/css" href="style.css" />
 	</head>
 	<body>
@@ -161,14 +165,14 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 					?>
 					<div id="prev_show" class="button_click">&#8592;</div>
 					<div id="next_show" class="button_click">&#8594;</div>
-					<div id="dropzone">
+					<!-- <div id="dropzone">
 						<h1 class="dropzone_header_grey">Compare</h1>
 							<div class="dropzone_content">
 								<ul>
 									<li class="placeholder">Drag and drop listings</li>
 								</ul>
 							</div>
-					</div>
+					</div> -->
 					</div><!--End results table -->
 					<?php 
 						$currPage = (($s/$limit) + 1);
@@ -206,6 +210,7 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 					<a href="#" id="furnished_no">[No]</a>
 				</div ><br/>
 			</div>
+			<div id="map_canvas"> </div>
 			<div id="footer" style="">
 				<p class="footer_copyright">&copy; 2011 Turtle's Den | <a class="footer_links" href="#" onclick="feedback();" >Feedback</a> | <font color="red">Currently under construction</font></p>
 			</div>
@@ -217,5 +222,5 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 	?>
 </html>
 <script>
-$(document).ready(function () { more_info(); compare_info(); });
+$(document).ready(function () { more_info(); map_load(); });
 </script>

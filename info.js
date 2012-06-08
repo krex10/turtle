@@ -33,7 +33,7 @@ function more_info () {
 							news++;
 						}
 						news = b - 1; prevs = news - 5;
-						document.getElementById("next_show").style.visibility = "hidden";
+						document.getElementById("next_show").style.visibility = "hidden"; console.log("Deed is done");
 					}
 					if (news >= 5) {
 						document.getElementById("prev_show").style.visibility = "visible"; counter++;
@@ -565,7 +565,7 @@ function new_submit (x) {
 					document.getElementById("dist"+i).style.visibility = "hidden";
 					document.getElementById("pad_dist"+i).style.visibility = "hidden";
 				}
-				document.getElementById("next_show").style.visibility = "hidden";
+				document.getElementById("next_show").style.visibility = "hidden"; 
 			}
 			document.getElementById("prev_show").style.visibility = "hidden";
 			document.getElementById("showing_results").innerHTML = 
