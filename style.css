@@ -26,11 +26,16 @@ body {
     border:0 none;
 }
 
+#zippy {
+	position:absolute;
+	margin:-150px 0 0 290px;
+}
+
 #green_page {
     position:absolute;
     top:0;
     background-color:#EEF3E2;
-    margin:70px 0 0 400px;
+    margin:150px 0 0 50px;
     padding:0;
     width:660px;
     border-radius:20px;
@@ -168,7 +173,7 @@ textarea.contact_form {
     font-weight:bold;
     flaot: left;
     position:relative;
-    margin:0 0 0 200px;
+    margin:-90px 0 0 520px;
     width:170px;
 }
 
@@ -193,7 +198,7 @@ textarea.contact_form {
     color:#000000;
     font-weight:bold;
     position:absolute;
-    bottom:0;
+    bottom:-40px;
     margin-left:40%;
     padding:30px 0 0 0;
 }
@@ -398,5 +403,5 @@ a.footer_links:hover {
 #map_canvas {
 	width:500px;
 	height:500px;
-	margin:-430px 20px 0 1100px;
+	margin:-100px 0 0 740px;
 }
