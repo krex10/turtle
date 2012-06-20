@@ -198,9 +198,9 @@ textarea.contact_form {
     color:#000000;
     font-weight:bold;
     position:absolute;
-    bottom:-40px;
-    margin-left:40%;
-    padding:30px 0 0 0;
+    bottom:0px;
+    margin-left:17%;
+    padding:10px 0 0 0;
 }
 #footer button {
     color:black;
@@ -269,7 +269,7 @@ a.footer_links:hover {
     border:0; 
     background:green; 
     padding:3px; 
-    width:50px; 
+    width:60px; 
     height:20px;
     cursor:pointer;
     color:white; 

@@ -19,10 +19,11 @@ session_start(); ?>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.droppable.js"></script>
 		<script src="jquery-ui-1.8.16.custom/development-bundle/ui/jquery.ui.sortable.js"></script>
 		<link rel="stylesheet" href="jquery-ui-1.8.16.custom/development-bundle/demos/demos.css">
+		<script> var map_marker, Lat_Long, myOptions, main_map; var markersArray = new Array(); </script>
 		<script src="tools/slider.js"></script>
+		<script src="tools/google_map.js"></script>
 		<script src="tools/specific.js"></script>
 		<script src="tools/compare.js"></script>
-		<script src="tools/google_map.js"></script>
 		<script src="spinner/jquery.spinner.js"></script>
 		<script type="text/javascript"
 		  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDK1vuOeBWL4n2g7IZtmeiTnOhh4QoJ7Dw&sensor=true">
@@ -221,6 +222,6 @@ echo "<script>console.log('".mysql_escape_string($query)."');</script>";
 		echo "<script>$(document).ready(filter_color('$filters[utils]','$filters[lease]','$filters[furnished]','$filters[sort]'));</script>";
 	?>
 </html>
-<script>
-$(document).ready(function () { more_info(); map_load(); });
+<script> 
+$(document).ready(function () {  map_load(); more_info();   });
 </script>

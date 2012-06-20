@@ -69,13 +69,15 @@ for (@rentalIds) {
 ########################
 #######EXTRACTION#######
 ########################
-my @addresses; my @avails; my @totalrooms; my @emptyrooms; my @costs; my @leasereqs; my @minreqs; my @maxreqs; my @genders;  my @utils; my @furnished; my @descripts; my @good_rentalIds; my @emails; my @phones; my @ratings, my @distances; 
+my @addresses; my @avails; my @totalrooms; my @emptyrooms; my @costs; my @leasereqs; my @minreqs; my @maxreqs;
+my @genders;  my @utils; my @furnished; my @descripts; my @good_rentalIds; my @emails; my @phones; my @ratings, my @distances;
+my @lats; my @longs;
 
 my $count = scalar @rentalIds;
 for (@rentalIds) {
     my $rentalId = $_;
     print "Currently on: $_. $count left.\n";
-    (my $address, my $avail, my $emptyroom, my $totalroom, my $cost, my $leasereq, my $minreq, my $maxreq, my $gender, my $util, my $furnish, my $descript, my $email, my $phone, my $rating, my $distance) = getInfo($_);
+    (my $address, my $avail, my $emptyroom, my $totalroom, my $cost, my $leasereq, my $minreq, my $maxreq, my $gender, my $util, my $furnish, my $descript, my $email, my $phone, my $rating, my $distance, my $lat, my $long) = getInfo($_);
     if (not(defined($address))) {
 	$count --; next;
     } #The next few lines is to add in each detail.
@@ -86,13 +88,14 @@ for (@rentalIds) {
     push @maxreqs, $maxreq; push @genders, $gender;
     push @utils, $util; push @furnished, $furnish;
     push @descripts, $descript; push @emails, $email;
-    push @phones, $phone; push @ratings, $rating; push @distances, $distance; $count --;
+    push @phones, $phone; push @ratings, $rating; push @distances, $distance;
+    push @lats, $lat; push @longs, $long; $count --;
 }
 
 @rentalIds = @good_rentalIds;
 for (0..$#rentalIds) {
     last;
-    print "RentalID: $rentalIds[$_]\nAddress: $addresses[$_]\nAvail: $avails[$_]\nRooms Avail: $emptyrooms[$_]\nTotal Rooms: $totalrooms[$_]\nCost: $costs[$_]\nLease Required: $leasereqs[$_]\nMin Lease Req: $minreqs[$_]\nMax Lease Allowed: $maxreqs[$_]\nGender Preferred: $genders[$_]\nUtilities Included: $utils[$_]\nFurnished: $furnished[$_]\nDescription: $descripts[$_]\nEmail: $emails[$_]Phone Number: $phones[$_]\nRating: $ratings[$_]\nDistance: $distances[$_]\n\n";
+    print "RentalID: $rentalIds[$_]\nAddress: $addresses[$_]\nAvail: $avails[$_]\nRooms Avail: $emptyrooms[$_]\nTotal Rooms: $totalrooms[$_]\nCost: $costs[$_]\nLease Required: $leasereqs[$_]\nMin Lease Req: $minreqs[$_]\nMax Lease Allowed: $maxreqs[$_]\nGender Preferred: $genders[$_]\nUtilities Included: $utils[$_]\nFurnished: $furnished[$_]\nDescription: $descripts[$_]\nEmail: $emails[$_]Phone Number: $phones[$_]\nRating: $ratings[$_]\nDistance: $distances[$_]\nLatitude: $lats[$_]\nLongitude: $longs[$_]\n\n";
 }
 
 #########################
@@ -109,7 +112,7 @@ die "Connection Error\n" unless $dbh = DBI->connect ("DBI:mysql:studen89_turtle"
 print "Connected to the database: inserting results.\n";
 
 for (0..$#rentalIds) {
-    $sql = "INSERT INTO $db_table VALUES('$rentalIds[$_]', '$addresses[$_]', '$avails[$_]', '$emptyrooms[$_]', '$totalrooms[$_]', '$costs[$_]', '$leasereqs[$_]', '$minreqs[$_]', '$maxreqs[$_]', '$genders[$_]', '$utils[$_]', '$furnished[$_]', '$descripts[$_]', '$emails[$_]', '$phones[$_]', '$ratings[$_]', '$distances[$_]')";
+    $sql = "INSERT INTO $db_table VALUES('$rentalIds[$_]', '$addresses[$_]', '$avails[$_]', '$emptyrooms[$_]', '$totalrooms[$_]', '$costs[$_]', '$leasereqs[$_]', '$minreqs[$_]', '$maxreqs[$_]', '$genders[$_]', '$utils[$_]', '$furnished[$_]', '$descripts[$_]', '$emails[$_]', '$phones[$_]', '$ratings[$_]', '$distances[$_]', '$lats[$_]', '$longs[$_]')";
     $sth = $dbh->prepare($sql);
     if (not($sth->execute())) {
 	print "SQL error with rentalId: $rentalIds[$_]\n";
@@ -205,12 +208,12 @@ sub getInfo {
     my $browser = LWP::UserAgent->new; my $response = $browser->get($url);
     my $content = get($url); #the pagesource is now $content
     my $temp = 0; my @info; my $address; my $total_vacancies; 
-    my $total_people; my $cost; my $descript; my $rating = 0;
+    my $total_people; my $cost; my $descript; my $rating = 0; my $lat = 0; my $long = 0;
     
     #calculate random distance
-    my $random_number = rand(30) + 1;
+    #my $random_number = rand(30) + 1;
     my $distance;
-    $distance = int ($random_number);
+    $distance = 0;
 
     if ($content =~ /no longer available/) {
 	return ();
@@ -329,5 +332,7 @@ sub getInfo {
 	#rating
 	push (@info, $rating);
 	push (@info, $distance);
+	push (@info, $lat);
+	push (@info, $long);
     return @info;
 }

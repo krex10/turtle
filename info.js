@@ -26,6 +26,7 @@ function more_info () {
 					}
 					totalrows = result.totalrows; a = news; b = a - numrows + 1; prevs = news - 10;
 					if (numrows < 5 || a == totalrows) {
+						document.getElementById("next_show").style.visibility = "hidden";
 						for (i= 4; i >= numrows ; i--) {
 							document.getElementById("cost"+i).style.visibility = "hidden";
 							document.getElementById("dist"+i).style.visibility = "hidden";
@@ -33,7 +34,6 @@ function more_info () {
 							news++;
 						}
 						news = b - 1; prevs = news - 5;
-						document.getElementById("next_show").style.visibility = "hidden"; console.log("Deed is done");
 					}
 					if (news >= 5) {
 						document.getElementById("prev_show").style.visibility = "visible"; counter++;
@@ -544,7 +544,7 @@ function new_submit (x) {
 		result = $.parseJSON(data);
 		numrows = result.numrows;
 		news = 0;
-		prevs = 0; totalrows = result.totalrows;
+		prevs = 0; totalrows = result.totalrows; clearOverlays();
 		if (result.error_msg != 'null_query') {
 			specific_info();
 			document.getElementById("next_show").style.visibility = "visible";
@@ -553,7 +553,7 @@ function new_submit (x) {
 				document.getElementById("cost"+i).style.visibility = "visible";
 				document.getElementById("dist"+i).style.visibility = "visible";
 				document.getElementById("cost"+i).innerHTML = "<p>$"+result.result[i].cost+"</p>";
-				document.getElementById("dist"+i).innerHTML = result.result[i].distance+" km";
+				document.getElementById("dist"+i).innerHTML = result.result[i].distance+"  km";
 				padding = result.result[i].distance * 15 + 135;
 				padding_left = padding+"px";
 				document.getElementById("pad_dist"+i).style.marginLeft = padding_left;

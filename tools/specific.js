@@ -4,7 +4,7 @@ function specific_info (next_page) {
 	$.get(get_link, function(data) {
 		result = $.parseJSON(data);
 		numrows = result.numrows;
-		totalrows = result.totalrows;
+		totalrows = result.totalrows; deleteOverlays();
 		if (result.error_msg != 'null_query') {
 			for (i=0; i < numrows; i++) {
 				document.getElementById("dialog"+i).style.display = "none";
@@ -16,6 +16,8 @@ function specific_info (next_page) {
 																"<br/>Lease required: "+result.result[i].lease+
 																"<br/>Rentalid: "+result.result[i].rentalid+
 																"<br/>Description: "+result.result[i].desc;
+				Lat_Long = new google.maps.LatLng(result.result[i].lat, result.result[i].longitude);
+				addMarker (Lat_Long);
 			}
 			$("#dist0").on("click", function () {
 				$("#dialog0").dialog({ 

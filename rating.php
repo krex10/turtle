@@ -21,7 +21,7 @@ while ($row= mysql_fetch_array($result)) {
 		$distance_bonus = $row['distance'] * 10;
 		$total_bonus = $price_bonus + $room_bonus + $distance_bonus + $lease_bonus + $utils_bonus + $furnished_bonus;
 		$rating = $rating + $total_bonus;
-		$update_query = "Update temp set rating = '{$rating}' where address = '{$row['address']}' and cost = '{$row['cost']}'";
+		$update_query = "Update temp set rating = '{$rating}' where rentalId = '{$row['rentalId']}'";
 		$update = mysql_query($update_query) or die("Couldn't execute query");
 		echo $rating . "\n";
 }

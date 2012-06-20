@@ -187,9 +187,9 @@ else {
 		$desc_trim = trim($row['description']);
 		$desc = mysql_escape_string($desc_trim);
 		if ($count >= $numrows || $count >= $limit) {
-			echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"".$desc."\", \"rentalid\":\"" . $row['rentalId'] ."\"}"; break; 
+			echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"".$desc."\", \"rentalid\":\"" . $row['rentalId'] ."\", \"lat\":\"". $row['lat'] ."\", \"longitude\":\"". $row['longitude'] ."\"}"; break; 
 		}
-		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"".$desc."\" , \"rentalid\":\"" . $row['rentalId'] ."\"},";
+		echo "{ \"cost\":\"" . $row['cost'] ."\", \"distance\":\"" . $row['distance'] ."\", \"address\":\"" . $row['address'] ."\", \"utils\":\"" . $row['utils_included'] ."\", \"furnished\":\"" . $row['furnished'] ."\" , \"lease\":\"" . $row['lease_required'] ."\", \"desc\":\"".$desc."\" , \"rentalid\":\"" . $row['rentalId'] ."\", \"lat\":\"". $row['lat'] ."\", \"longitude\":\"". $row['longitude'] ."\"},";
 		$count++;
 	}
 	echo "], \"numrows\": \"".$numrows."\", \"totalrows\": \"".$totalrows."\", \"debug\": \"".$numrows."\"}";
